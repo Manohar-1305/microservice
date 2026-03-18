@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: word2pdf-service
-        image: word2pdf-service:latest
+        image: docker.io/library/word2pdf-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5005

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: pdf-service
-        image: pdf-service:latest
+        image: docker.io/library/pdf-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5001

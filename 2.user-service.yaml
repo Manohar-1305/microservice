@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: docker.io/library/audio-service:latest
+        image: docker.io/library/user-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5006

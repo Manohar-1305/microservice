@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: music-service
-        image:docker.io/library/music-service:latest
+        image: docker.io/library/music-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5004

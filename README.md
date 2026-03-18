@@ -31,9 +31,15 @@ docker stop user-service && docker rm user-service && docker build --no-cache -t
 upload the image locally
 ==========================
 kind load docker-image gateway-service:latest --name multi-node-cluster
+
 kind load docker-image audio-service:latest --name multi-node-cluster
+
 kind load docker-image music-service:latest --name multi-node-cluster
+
 kind load docker-image pdf-service:latest --name multi-node-cluster
+
 kind load docker-image user-service:latest --name multi-node-cluster
+
 kind load docker-image word2pdf-service:latest --name multi-node-cluster
+
 kind load docker-image youtube-service:latest --name multi-node-cluster

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: youtube-service
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: youtube-service
+  template:
+    metadata:
+      labels:
+        app: youtube-service
+    spec:
+      containers:
+      - name: youtube-service
+        image: youtube-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: youtube-service
+  namespace: microservices
+spec:
+  selector:
+    app: youtube-service
+  ports:
+  - port: 5002
+    targetPort: 5002

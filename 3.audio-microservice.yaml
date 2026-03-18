@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: audio-service
-        image: audio-service:latest
+        image: docker.io/library/audio-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5003

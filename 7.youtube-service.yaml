@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: youtube-service
-        image: youtube-service:latest
+        image: docker.io/library/youtube-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5002

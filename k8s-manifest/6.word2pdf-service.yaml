@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: word2pdf-service
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: word2pdf-service
+  template:
+    metadata:
+      labels:
+        app: word2pdf-service
+    spec:
+      containers:
+      - name: word2pdf-service
+        image: docker.io/library/word2pdf-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: word2pdf-service
+  namespace: microservices
+spec:
+  selector:
+    app: word2pdf-service
+  ports:
+  - port: 5005
+    targetPort: 5005

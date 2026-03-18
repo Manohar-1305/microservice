@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Hub</title>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family: Inter, Arial, sans-serif;
+    background:#000000;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:95%;
+    max-width:1100px;
+}
+
+h1{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:50px;
+    background: linear-gradient(90deg,#38bdf8,#6366f1);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:30px;
+}
+
+.service{
+    border-radius:18px;
+    padding:35px 25px;
+    text-decoration:none;
+    color:white;
+    transition:0.3s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* Different colors for each microservice */
+.service:nth-child(1){background:linear-gradient(135deg,#0ea5e9,#0369a1);} 
+.service:nth-child(2){background:linear-gradient(135deg,#22c55e,#166534);} 
+.service:nth-child(3){background:linear-gradient(135deg,#f59e0b,#b45309);} 
+.service:nth-child(4){background:linear-gradient(135deg,#a855f7,#6b21a8);} 
+.service:nth-child(5){background:linear-gradient(135deg,#ef4444,#7f1d1d);} 
+
+.service:hover{
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+}
+
+.icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.title{
+    font-size:20px;
+    font-weight:700;
+}
+
+.subtitle{
+    font-size:13px;
+    color:rgba(255,255,255,0.8);
+    margin-top:10px;
+    text-align:center;
+}
+
+/* center last two boxes */
+.service:nth-child(4){grid-column:1/2}
+.service:nth-child(5){grid-column:3/4}
+
+.footer{
+    text-align:center;
+    margin-top:40px;
+    color:#64748b;
+}
+
+/* logout hover */
+a[href="/logout"]:hover{
+    background:#b91c1c;
+}
+
+.footer{
+    text-align:center;
+    margin-top:40px;
+    color:#64748b;
+}
+
+@media(max-width:800px){
+    .grid{grid-template-columns:1fr;}
+    .service:nth-child(4), .service:nth-child(5){grid-column:auto}
+}
+
+.blink{
+    animation: blinkAnim 1.2s infinite;
+}
+
+@keyframes blinkAnim{
+    0%{opacity:1;}
+    50%{opacity:0.2;}
+    100%{opacity:1;}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+
+<h1>Service Hub</h1>
+
+<div class="grid">
+
+<a class="service" href="/audio">
+    <div class="icon">🎧</div>
+    <div class="title">Audio Service</div>
+    <div class="subtitle">Handle audio processing</div>
+</a>
+
+<a class="service" href="/music">
+    <div class="icon">🎵</div>
+    <div class="title">Music Service</div>
+    <div class="subtitle">Manage music streaming</div>
+</a>
+
+<a class="service" href="/pdf">
+    <div class="icon">📄</div>
+    <div class="title">PDF Converter</div>
+    <div class="subtitle">Convert files to PDF</div>
+</a>
+
+<a class="service" href="/word_to_pdf">
+    <div class="icon">📝</div>
+    <div class="title">Word → PDF</div>
+    <div class="subtitle">DOCX conversion service</div>
+</a>
+
+<a class="service" href="/youtube">
+    <div class="icon">📺</div>
+    <div class="title">YouTube Downloader</div>
+    <div class="subtitle">Download videos</div>
+</a>
+
+</div>
+
+
+<div class="footer blink">
+    ⚡ One Gateway. Multiple Services. Seamless Experience.
+</div>
+
+
+<div style="display:flex; justify-content:center; margin-top:15px;">
+    <a href="/logout" style="padding:12px 25px; background:#ef4444; color:white; text-decoration:none; border-radius:10px; font-weight:600; transition:0.3s;">Logout</a>
+</div>
+
+</div>
+
+</body>
+</html>
+

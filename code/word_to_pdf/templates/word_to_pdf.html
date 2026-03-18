@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Word to PDF Converter</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Inter',Arial;
+    background: radial-gradient(circle at top,#020617,#1e293b);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+.container{
+    width:420px;
+    padding:35px;
+    border-radius:16px;
+    background:rgba(30,41,59,0.7);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+    text-align:center;
+}
+
+.drop-zone{
+    border:2px dashed #475569;
+    padding:25px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+input{display:none;}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    color:white;
+    cursor:pointer;
+}
+
+.status{
+    margin-top:10px;
+    font-size:13px;
+}
+
+.success{
+    margin-top:15px;
+    display:none;
+}
+
+.home-btn{
+    position:fixed;
+    top:25px;
+    right:30px;
+    padding:10px 18px;
+    border-radius:8px;
+    background:#38bdf8;
+    color:white;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<a href="/home" class="home-btn">🏠 Home</a>
+
+<div class="container">
+
+<h2>📝 Word → PDF</h2>
+
+<form id="form" enctype="multipart/form-data">
+
+<div class="drop-zone" id="dropZone">
+    Click or Drop .docx file
+</div>
+
+<input type="file" id="file" name="word_file" accept=".docx" required>
+
+<button type="submit">Convert</button>
+
+<div class="status" id="status"></div>
+
+</form>
+
+<div class="success" id="success">
+<p>✅ Done</p>
+<a id="downloadLink">
+<button>Download PDF</button>
+</a>
+</div>
+
+</div>
+
+<script>
+
+const dropZone = document.getElementById("dropZone")
+const fileInput = document.getElementById("file")
+
+dropZone.onclick = () => fileInput.click()
+
+dropZone.ondragover = e => e.preventDefault()
+
+dropZone.ondrop = e => {
+    e.preventDefault()
+    fileInput.files = e.dataTransfer.files
+}
+
+document.getElementById("form").onsubmit = function(e){
+
+e.preventDefault()
+
+const file = fileInput.files[0]
+
+if(!file){
+    alert("Select file")
+    return
+}
+
+const formData = new FormData()
+formData.append("word_file", file)
+
+fetch("/word-to-pdf/convert", {
+    method: "POST",
+    body: formData
+})
+.then(res => res.json())
+.then(data => {
+
+    if(data.success){
+
+        const url = "/download/" + data.pdf_file
+
+        // AUTO DOWNLOAD
+        const a = document.createElement("a")
+        a.href = url
+        a.download = ""
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+
+        // fallback button
+        document.getElementById("downloadLink").href = url
+        document.getElementById("success").style.display = "block"
+        document.getElementById("status").innerText = ""
+
+    }else{
+        document.getElementById("status").innerText = data.error
+    }
+
+})
+.catch(() => {
+    document.getElementById("status").innerText = "Gateway/Service not reachable"
+})
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family: 'Inter', sans-serif;
+    background:#020617;
+    height:100vh;
+    display:flex;
+}
+
+/* LEFT PANEL */
+.left{
+    width:50%;
+    background: linear-gradient(135deg,#020617,#1e293b);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:60px;
+    color:white;
+}
+
+.left h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+.left p{
+    color:#94a3b8;
+    margin-bottom:20px;
+}
+
+.left ul{
+    margin-top:10px;
+}
+
+.left li{
+    margin:12px 0;
+    font-size:16px;
+}
+
+/* RIGHT PANEL */
+.right{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CARD */
+.card{
+    width:340px;
+    padding:40px 30px;
+    border-radius:16px;
+    background: rgba(30, 41, 59, 0.7);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:15px;
+    font-size:28px;
+}
+
+.info-text{
+    text-align:center;
+    font-size:14px;
+    color:#94a3b8;
+    margin-bottom:20px;
+}
+
+/* inputs */
+.input-group{
+    margin-bottom:18px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    background:#0f172a;
+    color:white;
+}
+
+input:focus{
+    border:1px solid #16a34a;
+}
+
+/* button */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#16a34a,#15803d);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+/* link */
+a{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LEFT SIDE -->
+<div class="left">
+
+    <h1>Join the Platform</h1>
+
+    <p>Create your account and unlock powerful tools:</p>
+
+    <ul>
+        <li>🎵 Manage and stream music</li>
+        <li>🎧 Convert text to audio instantly</li>
+        <li>📄 Convert files to PDF</li>
+        <li>📝 Word to PDF conversion</li>
+        <li>📺 Download videos easily</li>
+    </ul>
+
+    <p style="margin-top:20px;">
+        Simple, fast, and all in one place.
+    </p>
+
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="right">
+
+    <div class="card">
+        <h2>Create Account</h2>
+
+        <p class="info-text">
+            After creating an account, please login to access all services.
+        </p>
+
+        <form method="post">
+            <div class="input-group">
+                <input name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-group">
+                <input name="password" type="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <a href="/login">Back to Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

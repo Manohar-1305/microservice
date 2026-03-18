@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family: 'Inter', Arial, sans-serif;
+    background:#020617;
+    height:100vh;
+    display:flex;
+}
+
+/* LEFT PANEL */
+.left{
+    width:50%;
+    background: linear-gradient(135deg,#1e293b,#0f172a);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:60px;
+    color:white;
+}
+
+.left h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+.left p{
+    color:#94a3b8;
+    margin-bottom:20px;
+}
+
+.left ul{
+    margin-top:10px;
+}
+
+.left li{
+    margin:12px 0;
+    font-size:16px;
+}
+
+/* RIGHT PANEL */
+.right{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#020617;
+}
+
+/* LOGIN CARD */
+.card{
+    width:340px;
+    padding:40px 30px;
+    border-radius:16px;
+    background: rgba(30, 41, 59, 0.7);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:28px;
+}
+
+/* success */
+.success-box{
+    background: rgba(34,197,94,0.15);
+    border:1px solid rgba(34,197,94,0.4);
+    color:#4ade80;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    text-align:center;
+    font-size:14px;
+}
+
+/* error */
+.error-box{
+    background: rgba(239,68,68,0.15);
+    border:1px solid rgba(239,68,68,0.4);
+    color:#f87171;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    text-align:center;
+    font-size:14px;
+}
+
+/* inputs */
+.input-group{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    background:#0f172a;
+    color:white;
+}
+
+input:focus{
+    border:1px solid #2563eb;
+}
+
+/* button */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+/* link */
+a{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LEFT SIDE -->
+<div class="left">
+    <h1>All-in-One Platform</h1>
+
+    <p>Access all your services in one place:</p>
+
+    <ul>
+        <li>🎵 Music Service</li>
+        <li>🎧 Audio Processing</li>
+        <li>📄 PDF Converter</li>
+        <li>📝 Word → PDF Converter</li>
+        <li>📺 YouTube Downloader</li>
+    </ul>
+
+    <p style="margin-top:20px;">
+        Don’t have an account? Create one below.
+    </p>
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="right">
+
+    <div class="card">
+
+        <h2>Login</h2>
+
+        {% if request.args.get('success') %}
+        <div class="success-box">
+            {{ request.args.get('success') }}
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error-box">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post">
+
+            <div class="input-group">
+                <input name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-group">
+                <input name="password" type="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <a href="/register">Create Account</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

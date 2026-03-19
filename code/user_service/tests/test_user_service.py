@@ -2,12 +2,23 @@
 
 import sys
 import os
+from unittest.mock import MagicMock, patch
+
+# ---- MOCK MYSQL BEFORE IMPORT ----
+fake_mysql = MagicMock()
+fake_conn = MagicMock()
+fake_cursor = MagicMock()
+
+fake_conn.cursor.return_value = fake_cursor
+fake_mysql.connector.connect.return_value = fake_conn
+
+sys.modules['mysql'] = fake_mysql
+sys.modules['mysql.connector'] = fake_mysql.connector
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import app
 import pytest
-from unittest.mock import patch, MagicMock
 
 
 @pytest.fixture

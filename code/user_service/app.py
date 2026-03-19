@@ -1,21 +1,32 @@
+# user-microservice/app.py (MYSQL VERSION)
+
 from flask import Flask, request, jsonify, render_template, redirect
-import sqlite3
 import hashlib
+import mysql.connector
 
 app = Flask(__name__)
-DB = "users.db"
+
+db_config = {
+    "host": "user-db",
+    "user": "user",
+    "password": "userpass",
+    "database": "usersdb"
+}
+
+def get_conn():
+    return mysql.connector.connect(**db_config)
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def init_db():
-    conn = sqlite3.connect(DB)
+    conn = get_conn()
     c = conn.cursor()
     c.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) UNIQUE,
+            password VARCHAR(255)
         )
     ''')
     conn.commit()
@@ -34,12 +45,12 @@ def register():
     password = hash_password(request.form.get('password'))
 
     try:
-        conn = sqlite3.connect(DB)
+        conn = get_conn()
         c = conn.cursor()
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
         conn.commit()
         conn.close()
-        return redirect('/login')   # back to login
+        return redirect('/login')
     except:
         return "User already exists"
 
@@ -53,14 +64,13 @@ def login():
     username = request.form.get('username')
     password = hash_password(request.form.get('password'))
 
-    conn = sqlite3.connect(DB)
+    conn = get_conn()
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+    c.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
     user = c.fetchone()
     conn.close()
 
     if user:
-        # 🔥 REDIRECT TO GATEWAY
         return redirect(f"/login-success?username={username}")
     return "Invalid credentials"
 

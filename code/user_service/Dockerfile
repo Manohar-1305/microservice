@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN pip install flask
+RUN pip install flask mysql-connector-python
 
 EXPOSE 5006
 

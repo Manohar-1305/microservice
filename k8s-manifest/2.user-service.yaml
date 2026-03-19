@@ -1,55 +1,45 @@
-# MYSQL STATEFULSET + SERVICE
+# USER SERVICE (UPDATED TO USE MYSQL)
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-db
-  namespace: microservices
-spec:
-  ports:
-    - port: 3306
-  clusterIP: None
-  selector:
-    app: user-db
----
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: user-db
+  name: user-service
   namespace: microservices
 spec:
-  serviceName: user-db
   replicas: 1
   selector:
     matchLabels:
-      app: user-db
+      app: user-service
   template:
     metadata:
       labels:
-        app: user-db
+        app: user-service
     spec:
       containers:
-      - name: mysql
-        image: mysql:8
+      - name: user-service
+        image: docker.io/library/user-service:latest
+        imagePullPolicy: Never
         ports:
-        - containerPort: 3306
+        - containerPort: 5006
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: rootpass
-        - name: MYSQL_DATABASE
-          value: usersdb
-        - name: MYSQL_USER
+        - name: DB_HOST
+          value: user-db
+        - name: DB_USER
           value: user
-        - name: MYSQL_PASSWORD
+        - name: DB_PASSWORD
           value: userpass
-        volumeMounts:
-        - name: mysql-data
-          mountPath: /var/lib/mysql
-  volumeClaimTemplates:
-  - metadata:
-      name: mysql-data
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 1Gi
+        - name: DB_NAME
+          value: usersdb
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: microservices
+spec:
+  selector:
+    app: user-service
+  ports:
+  - port: 5006
+    targetPort: 5006

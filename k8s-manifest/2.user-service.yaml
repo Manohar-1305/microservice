@@ -28,7 +28,6 @@ spec:
           value: userpass
         - name: DB_NAME
           value: usersdb
-
 ---
 apiVersion: v1
 kind: Service

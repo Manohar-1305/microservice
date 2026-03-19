@@ -1,55 +1,55 @@
-# mysql-statefulset.yaml
+# MYSQL STATEFULSET + SERVICE
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: user-db
+  namespace: microservices
 spec:
-  clusterIP: None
-  selector:
-    app: mysql
   ports:
     - port: 3306
-      name: mysql
-
+  clusterIP: None
+  selector:
+    app: user-db
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: user-db
+  namespace: microservices
 spec:
-  serviceName: "mysql"
+  serviceName: user-db
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: user-db
   template:
     metadata:
       labels:
-        app: mysql
+        app: user-db
     spec:
       containers:
-        - name: mysql
-          image: mysql:8
-          ports:
-            - containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: rootpass
-            - name: MYSQL_DATABASE
-              value: usersdb
-            - name: MYSQL_USER
-              value: user
-            - name: MYSQL_PASSWORD
-              value: userpass
-          volumeMounts:
-            - name: mysql-pvc
-              mountPath: /var/lib/mysql
+      - name: mysql
+        image: mysql:8
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootpass
+        - name: MYSQL_DATABASE
+          value: usersdb
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_PASSWORD
+          value: userpass
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
   volumeClaimTemplates:
-    - metadata:
-        name: mysql-pvc
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 5Gi
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi

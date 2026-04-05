@@ -1,4 +1,5 @@
 docker network create micro-net
+
 Gateway
 =======
 docker stop gateway-service && docker rm gateway-service && docker build --no-cache -t gateway-service ~/gateway && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service

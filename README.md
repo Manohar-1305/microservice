@@ -1,4 +1,5 @@
 docker network create micro-net
+docker run -d --name mysql-container --network micro-net -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=mydb -p 3306:3306 mysql:8
 
 Gateway
 =======

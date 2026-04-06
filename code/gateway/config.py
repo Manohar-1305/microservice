@@ -6,3 +6,7 @@ PDF_SERVICE = os.getenv("PDF_SERVICE_URL", "http://pdf-service:5001")
 WORD2PDF_SERVICE = os.getenv("WORD2PDF_SERVICE_URL", "http://word2pdf-service:5005")
 YTDL_SERVICE = os.getenv("YTDL_SERVICE_URL", "http://youtube-service:5002")
 USER_SERVICE = os.getenv("USER_SERVICE_URL", "http://user-service:5006")
+
+# add these two micrservices
+URL_SHORTENER_SERVICE = os.getenv("URL_SHORTENER_SERVICE_URL","http://url-shortner-service:50007")
+TODO_SERVICE = os.getenv("TODO_SERVICE_URL","http://todo-service:50009")

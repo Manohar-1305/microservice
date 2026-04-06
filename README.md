@@ -20,6 +20,8 @@ docker stop gateway-service 2>/dev/null; \
 docker rm gateway-service 2>/dev/null; \
 docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
 
+docker build --no-cache -t gateway-service . && docker stop gateway-service 2>/dev/null; docker rm gateway-service 2>/dev/null; docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
+
 url-shortner
 =============
 docker build --no-cache -t url-shortner-service . && docker stop url-shortner-service 2>/dev/null; docker rm url-shortner-service 2>/dev/null; docker run -d --name url-shortner-service --network micro-net --env-file .env -p 50007:50007 url-shortner-service

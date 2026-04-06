@@ -9,9 +9,9 @@ docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=root123 
 Gateway
 =======
 
-docker build --no-cache -t gateway-service . && docker stop gateway-service 2>/dev/null; docker rm gateway-service 2>/dev/null; docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
-
 docker stop gateway-service && docker rm gateway-service && docker build --no-cache -t gateway-service ~/gateway && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
+
+docker build --no-cache -t gateway-service . && docker stop gateway-service 2>/dev/null; docker rm gateway-service 2>/dev/null; docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
 
 User Service
 =============

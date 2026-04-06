@@ -44,6 +44,8 @@ docker stop user-service && docker rm user-service && docker build --no-cache -t
 Audio Service
 ==============
 
+docker stop audio-service 2>/dev/null; docker rm audio-service 2>/dev/null; docker build --no-cache -t audio-service . && docker run -d --name audio-service --network micro-net -p 5003:5003 audio-service
+
 docker stop audio-service && docker rm audio-service && docker build --no-cache -t audio-service ~/audioconverter && docker run -d --name audio-service --network micro-net -p 5003:5003 audio-service
 
 Music service

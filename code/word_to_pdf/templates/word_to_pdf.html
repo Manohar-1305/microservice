@@ -56,15 +56,30 @@ button{
     display:none;
 }
 
+/* HOME BUTTON (GREEN) */
 .home-btn{
     position:fixed;
     top:25px;
     right:30px;
     padding:10px 18px;
     border-radius:8px;
-    background:#38bdf8;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
     color:white;
     text-decoration:none;
+}
+
+/* LOGOUT BUTTON (RED) */
+.logout-btn{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:10px 20px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
 }
 </style>
 </head>
@@ -99,6 +114,8 @@ button{
 </div>
 
 </div>
+
+<a href="/logout" class="logout-btn">Logout</a>
 
 <script>
 
@@ -139,7 +156,6 @@ fetch("/word-to-pdf/convert", {
 
         const url = "/download/" + data.pdf_file
 
-        // AUTO DOWNLOAD
         const a = document.createElement("a")
         a.href = url
         a.download = ""
@@ -147,7 +163,6 @@ fetch("/word-to-pdf/convert", {
         a.click()
         document.body.removeChild(a)
 
-        // fallback button
         document.getElementById("downloadLink").href = url
         document.getElementById("success").style.display = "block"
         document.getElementById("status").innerText = ""

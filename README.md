@@ -13,6 +13,8 @@ docker stop todo-service 2>/dev/null; \
 docker rm todo-service 2>/dev/null; \
 docker run -d --name todo-service --network micro-net --env-file .env -p 50009:50009 todo-service
 
+docker build --no-cache -t todo-service . && docker stop todo-service 2>/dev/null && docker rm todo-service 2>/dev/null && docker run -d --name todo-service --network micro-net --env-file .env -p 50009:50009 todo-service
+
 # gateway
 
 docker build --no-cache -t gateway-service . && \

@@ -125,6 +125,27 @@ audio{
     box-shadow:0 10px 25px rgba(56,189,248,0.6);
 }
 
+/* LOGOUT BUTTON */
+.logout-btn{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:10px 20px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:0 10px 25px rgba(239,68,68,0.4);
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    transform:translateX(-50%) translateY(-2px);
+    box-shadow:0 10px 25px rgba(239,68,68,0.7);
+}
+
 </style>
 
 </head>
@@ -148,6 +169,8 @@ audio{
 </div>
 
 <a href="/home" class="home-btn">🏠 Home</a>
+<a href="/logout" class="logout-btn">Logout</a>
+
 <script>
 
 async function convert(){
@@ -174,7 +197,6 @@ const url=URL.createObjectURL(blob)
 
 document.getElementById("player").src=url
 
-// show download button
 const downloadBtn=document.getElementById("download")
 downloadBtn.href=url
 downloadBtn.style.display="inline-block"
@@ -184,6 +206,5 @@ document.getElementById("loading").style.display="none"
 }
 
 </script>
-
 </body>
 </html>

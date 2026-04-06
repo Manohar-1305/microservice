@@ -113,25 +113,46 @@ button:hover{
     color:#94a3b8;
 }
 
-/* HOME BUTTON */
+/* HOME BUTTON (GREEN) */
 .home-btn{
     position:fixed;
     top:25px;
     right:30px;
     padding:10px 18px;
     border-radius:8px;
-    background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+    background:linear-gradient(135deg,#22c55e,#16a34a);
     color:white;
     text-decoration:none;
     font-size:14px;
     font-weight:600;
-    box-shadow:0 10px 25px rgba(56,189,248,0.3);
+    box-shadow:0 10px 25px rgba(34,197,94,0.3);
     transition:0.3s;
 }
 
 .home-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(56,189,248,0.6);
+    box-shadow:0 10px 25px rgba(34,197,94,0.6);
+}
+
+/* LOGOUT BUTTON (RED) */
+.logout-btn{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:10px 20px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:0 10px 25px rgba(239,68,68,0.4);
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    transform:translateX(-50%) translateY(-2px);
+    box-shadow:0 10px 25px rgba(239,68,68,0.7);
 }
 
 </style>
@@ -168,21 +189,20 @@ button:hover{
 
 </div>
 
+<a href="/logout" class="logout-btn">Logout</a>
+
 <script>
 
 const dropZone = document.getElementById("dropZone")
 const fileInput = document.getElementById("file")
 const fileName = document.getElementById("fileName")
 
-// click upload
 dropZone.onclick = () => fileInput.click()
 
-// file select
 fileInput.onchange = () => {
     fileName.innerText = fileInput.files[0].name
 }
 
-// drag events
 dropZone.ondragover = (e)=>{
     e.preventDefault()
     dropZone.classList.add("dragover")
@@ -199,7 +219,6 @@ dropZone.ondrop = (e)=>{
     fileName.innerText = fileInput.files[0].name
 }
 
-// submit
 document.getElementById("pdfForm").onsubmit = function(e){
 
 e.preventDefault()
@@ -218,7 +237,6 @@ const xhr = new XMLHttpRequest()
 
 xhr.open("POST","/api/pdf",true)
 
-// progress
 xhr.upload.onprogress = function(e){
     if(e.lengthComputable){
         const percent = (e.loaded / e.total) * 100
@@ -228,7 +246,6 @@ xhr.upload.onprogress = function(e){
     }
 }
 
-// complete
 xhr.onload = function(){
 
     const blob = xhr.response

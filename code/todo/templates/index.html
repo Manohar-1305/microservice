@@ -1,7 +1,13 @@
 {% extends "base.html" %}
-{% block title %}To‑Do List{% endblock %}
+{% block title %}To-Do List{% endblock %}
 
 {% block content %}
+
+<!-- Top Right Home (Green) -->
+<div style="position:absolute; top:20px; right:20px;">
+  <a href="/home" class="btn" style="background-color:green; color:white;">Home</a>
+</div>
+
 <div class="grid">
 
   <!-- Left: Dates -->
@@ -17,14 +23,14 @@
       {% endif %}
 
       {% for d in dates %}
-  <a
-    class="date-item {% if d.d == selected_date %}active{% endif %}"
-    href="/todo?date={{ d.d }}"
-  >
-    <span class="date-text">{{ d.d }}</span>
-    <span class="badge">{{ d.c }}</span>
-  </a>
-{% endfor %}
+      <a
+        class="date-item {% if d.d == selected_date %}active{% endif %}"
+        href="/todo?date={{ d.d }}"
+      >
+        <span class="date-text">{{ d.d }}</span>
+        <span class="badge">{{ d.c }}</span>
+      </a>
+      {% endfor %}
     </div>
   </aside>
 
@@ -36,17 +42,9 @@
       </h2>
     </div>
 
-    <!-- Add Task (manual date selection allowed) -->
     <form class="add" method="POST" action="{{ url_for('add_task') }}">
-      <input
-        name="title"
-        type="text"
-        placeholder="Add a task..."
-        autocomplete="off"
-        required
-      >
+      <input name="title" type="text" placeholder="Add a task..." autocomplete="off" required>
 
-      <!-- ✅ You can pick date or type in supported browsers -->
       <input
         class="datepick"
         name="task_date"
@@ -67,7 +65,7 @@
         <div class="item {% if t.is_done == 1 %}done{% endif %}">
           <div class="left">
             <form method="POST" action="{{ url_for('toggle_task', task_id=t.id) }}">
-              <button class="icon" type="submit" title="Toggle">
+              <button class="icon" type="submit">
                 {% if t.is_done == 1 %}✓{% else %}○{% endif %}
               </button>
             </form>
@@ -91,4 +89,10 @@
 
   </section>
 </div>
+
+<!-- Bottom Center Logout (Red) -->
+<div style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%);">
+  <a href="/logout" class="btn" style="background-color:red; color:white;">Logout</a>
+</div>
+
 {% endblock %}

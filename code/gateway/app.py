@@ -11,8 +11,8 @@ PDF_SERVICE = config.PDF_SERVICE
 WORD2PDF_SERVICE = config.WORD2PDF_SERVICE
 YTDL_SERVICE = config.YTDL_SERVICE
 USER_SERVICE = config.USER_SERVICE
-
-
+URL_SHORTENER_SERVICE = config.URL_SHORTENER_SERVICE
+TODO_SERVICE = config.TODO_SERVICE
 # -------- ROOT --------
 @app.route('/')
 def root():
@@ -80,6 +80,101 @@ def check_auth():
         return redirect('/login')
     return None
 
+# -------------Shortner-----------
+
+@app.route('/shortener')
+def shortener_page():
+    auth = check_auth()
+    if auth: return auth
+
+    r = requests.get(f"{URL_SHORTENER_SERVICE}/")
+    return Response(r.content, r.status_code)
+
+@app.route('/api/shorten', methods=['POST'])
+def shorten_url():
+    auth = check_auth()
+    if auth: return auth
+
+    r = requests.post(
+        f"{URL_SHORTENER_SERVICE}/api/shorten",
+        json=request.get_json()
+    )
+
+    return Response(
+        r.content,
+        r.status_code,
+        content_type=r.headers.get('Content-Type')
+    )
+
+@app.route('/s/<code>')
+def redirect_short_url(code):
+    r = requests.get(
+        f"{URL_SHORTENER_SERVICE}/{code}",
+        allow_redirects=False
+    )
+
+    return Response(
+        r.content,
+        r.status_code,
+        headers=dict(r.headers)
+    )
+
+
+@app.route('/todo')
+def todo_page():
+    auth = check_auth()
+    if auth: return auth
+
+    r = requests.get(f"{TODO_SERVICE}/")
+    return Response(r.content, r.status_code)
+
+@app.route('/add', methods=['POST'])
+def todo_add():
+    auth = check_auth()
+    if auth: return auth
+
+    r = requests.post(
+        f"{TODO_SERVICE}/add",
+        data=request.form
+    )
+
+    return redirect('/todo')
+
+@app.route('/toggle/<int:task_id>', methods=['POST'])
+def todo_toggle(task_id):
+    auth = check_auth()
+    if auth: return auth
+
+    requests.post(f"{TODO_SERVICE}/toggle/{task_id}")
+    return redirect('/todo')
+
+@app.route('/delete/<int:task_id>', methods=['POST'])
+def todo_delete(task_id):
+    auth = check_auth()
+    if auth: return auth
+
+    requests.post(f"{TODO_SERVICE}/delete/{task_id}")
+    return redirect('/todo')
+
+@app.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+def todo_edit(task_id):
+    auth = check_auth()
+    if auth: return auth
+
+    if request.method == 'GET':
+        r = requests.get(f"{TODO_SERVICE}/edit/{task_id}")
+        return Response(r.content, r.status_code)
+
+    requests.post(
+        f"{TODO_SERVICE}/edit/{task_id}",
+        data=request.form
+    )
+    return redirect('/todo')
+
+@app.route('/static/<path:filename>')
+def todo_static(filename):
+    r = requests.get(f"{TODO_SERVICE}/static/{filename}")
+    return Response(r.content, r.status_code, content_type=r.headers.get('Content-Type'))
 
 # -------- SERVICES --------
 @app.route('/audio')

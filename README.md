@@ -7,16 +7,19 @@ docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=rootpass
 docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=usersdb -e MYSQL_USER=user -e MYSQL_PASSWORD=userpass -p 3306:3306 mysql:8
 
 # todo service
+
 docker build --no-cache -t todo-service . && \
 docker stop todo-service 2>/dev/null; \
 docker rm todo-service 2>/dev/null; \
 docker run -d --name todo-service --network micro-net --env-file .env -p 50009:50009 todo-service
 
 # gateway
+
 docker build --no-cache -t gateway-service . && \
 docker stop gateway-service 2>/dev/null; \
 docker rm gateway-service 2>/dev/null; \
 docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
+
 Gateway
 =======
 

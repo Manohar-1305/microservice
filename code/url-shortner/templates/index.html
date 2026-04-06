@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>URL Shortener</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background: #1e293b;
+        padding: 30px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 10px;
+      }
+
+      .sub {
+        font-size: 14px;
+        color: #94a3b8;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 10px;
+        outline: none;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #3b82f6;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background: #2563eb;
+      }
+
+      .result {
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .ok {
+        background: #022c22;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .error {
+        background: #7f1d1d;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .muted {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 5px;
+      }
+
+      a {
+        color: #38bdf8;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>URL Shortener</h1>
+      <p class="sub">Paste a long URL and get a short one.</p>
+
+      <form id="form">
+        <input
+          id="long_url"
+          type="text"
+          placeholder="https://example.com/very/long/path"
+          required
+        />
+        <button type="submit">Shorten</button>
+      </form>
+
+      <div id="result" class="result hidden"></div>
+    </div>
+
+    <script>
+      const form = document.getElementById("form");
+      const input = document.getElementById("long_url");
+      const result = document.getElementById("result");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        result.classList.add("hidden");
+        result.innerHTML = "";
+
+        const long_url = input.value.trim();
+
+        const res = await fetch("/api/shorten", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ long_url }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          result.classList.remove("hidden");
+          result.innerHTML = `<div class="error">Error: ${data.error || "Unknown error"}</div>`;
+          return;
+        }
+
+        result.classList.remove("hidden");
+        result.innerHTML = `
+        <div class="ok">
+          <div><b>Short URL:</b> <a href="${data.short_url}" target="_blank">${data.short_url}</a></div>
+          <div><b>Code:</b> <code>${data.code}</code></div>
+          <div class="muted"><b>Long:</b> ${data.long_url}</div>
+        </div>
+      `;
+      });
+    </script>
+  </body>
+</html>

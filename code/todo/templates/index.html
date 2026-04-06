@@ -1,0 +1,93 @@
+{% extends "base.html" %} {% block title %}To‑Do List{% endblock %} {% block
+content %}
+<div class="grid">
+  <!-- Left: Dates -->
+  <aside class="dates">
+    <div class="dates-head">
+      <h3>Dates</h3>
+      <span class="dates-sub">{{ dates|length }} days</span>
+    </div>
+
+    <div class="dates-list">
+      {% if dates|length == 0 %}
+      <div class="empty">No tasks yet.</div>
+      {% endif %} {% for d in dates %}
+      <a
+        class="date-item {% if d.d == selected_date %}active{% endif %}"
+        href="{{ url_for('index', date=d.d) }}"
+      >
+        <span class="date-text">{{ d.d }}</span>
+        <span class="badge">{{ d.c }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </aside>
+
+  <!-- Right: Tasks -->
+  <section class="tasks">
+    <div class="tasks-head">
+      <h2 class="tasks-title">
+        Tasks for <span class="pill">{{ selected_date }}</span>
+      </h2>
+    </div>
+
+    <!-- Add Task (manual date selection allowed) -->
+    <form class="add" method="POST" action="{{ url_for('add_task') }}">
+      <input
+        name="title"
+        type="text"
+        placeholder="Add a task..."
+        autocomplete="off"
+        required
+      />
+
+      <!-- ✅ You can pick date or type in supported browsers -->
+      <input
+        class="datepick"
+        name="task_date"
+        type="date"
+        value="{{ selected_date or today }}"
+        required
+      />
+
+      <button type="submit">Add</button>
+    </form>
+
+    <div class="list">
+      {% if tasks|length == 0 %}
+      <div class="empty">No tasks for this date.</div>
+      {% endif %} {% for t in tasks %}
+      <div class="item {% if t.is_done == 1 %}done{% endif %}">
+        <div class="left">
+          <form
+            method="POST"
+            action="{{ url_for('toggle_task', task_id=t.id) }}"
+          >
+            <button class="icon" type="submit" title="Toggle">
+              {% if t.is_done == 1 %}✓{% else %}○{% endif %}
+            </button>
+          </form>
+
+          <div class="text">
+            <div class="title">{{ t.title }}</div>
+            <div class="meta">Created: {{ t.created_at }}</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="btn" href="{{ url_for('edit_page', task_id=t.id) }}"
+            >Edit</a
+          >
+
+          <form
+            method="POST"
+            action="{{ url_for('delete_task', task_id=t.id) }}"
+          >
+            <button class="btn danger" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>

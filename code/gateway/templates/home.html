@@ -3,45 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Service Hub</title>
+<title>WorkDesk</title>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<style>
+/* moving banner */
+.banner{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#0ea5e9;
+    color:white;
+    overflow:hidden;
+    white-space:nowrap;
+    z-index:1000;
+}
+
+.banner-text{
+    display:inline-block;
+    padding:10px 0;
+    animation:scroll-left 15s linear infinite;
+    font-weight:600;
+}
+
+@keyframes scroll-left{
+    0%{transform:translateX(100%);}
+    100%{transform:translateX(-100%);}
+}
+
+/* push content down */
+.container{
+    margin-top:60px;
+}
+</style>
+
 </head>
 
 <body>
 
+<!-- Moving Banner -->
+<div class="banner">
+    <div class="banner-text">
+        💡 Explore these free tools, experiment freely, and turn your ideas into real solutions!
+    </div>
+</div>
+
 <div class="container">
 
-<h1>Service Hub</h1>
-
+<h1 style="margin-bottom:5px; text-align:center; color:white;">Tools Hub</h1>
+<p style="color:#94a3b8; margin-bottom:20px; text-align:center;">
+    Build space for creating and experimenting.
+</p>
 <div class="grid">
 
 <a class="service" href="/audio">
-    <div class="icon">🎧</div>
+    <div class="icon">🎙️</div>
     <div class="title">Audio Service</div>
     <div class="subtitle">Handle audio processing</div>
 </a>
 
 <a class="service" href="/music">
-    <div class="icon">🎵</div>
+    <div class="icon">🎶</div>
     <div class="title">Music Service</div>
     <div class="subtitle">Manage music streaming</div>
 </a>
 
 <a class="service" href="/pdf">
-    <div class="icon">📄</div>
+    <div class="icon">📑</div>
     <div class="title">PDF Converter</div>
     <div class="subtitle">Convert files to PDF</div>
 </a>
 
 <a class="service" href="/word_to_pdf">
-    <div class="icon">📝</div>
+    <div class="icon">🧾</div>
     <div class="title">Word → PDF</div>
     <div class="subtitle">DOCX conversion service</div>
 </a>
 
 <a class="service" href="/youtube">
-    <div class="icon">📺</div>
+    <div class="icon">▶️</div>
     <div class="title">YouTube Downloader</div>
     <div class="subtitle">Download videos</div>
 </a>
@@ -51,8 +93,9 @@
     <div class="title">URL Shortener</div>
     <div class="subtitle">Create and manage short links</div>
 </a>
+
 <a class="service" href="/todo">
-    <div class="icon">✅</div>
+    <div class="icon">🗂️</div>
     <div class="title">Todo Service</div>
     <div class="subtitle">Manage your daily tasks</div>
 </a>
@@ -65,6 +108,10 @@
 
 <div style="display:flex; justify-content:center; margin-top:15px;">
     <a href="/logout" style="padding:12px 25px; background:#ef4444; color:white; text-decoration:none; border-radius:10px; font-weight:600; transition:0.3s;">Logout</a>
+</div>
+
+<div style="text-align:center; margin-top:15px; font-size:12px; color:#94a3b8;">
+    © 2026 WorkDesk. All rights reserved.
 </div>
 
 </div>

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo
+  template:
+    metadata:
+      labels:
+        app: todo
+    spec:
+      containers:
+      - name: todo
+        image: docker.io/library/todo-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50009
+        env:
+        - name: DB_HOST
+          value: "user-db"
+        - name: DB_USER
+          value: "user"
+        - name: DB_PASSWORD
+          value: "userpass"
+        - name: DB_NAME
+          value: "usersdb"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo
+spec:
+  type: ClusterIP
+  selector:
+    app: todo
+  ports:
+  - port: 50009
+    targetPort: 50009

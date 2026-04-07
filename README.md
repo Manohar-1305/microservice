@@ -74,6 +74,10 @@ kind load docker-image gateway-service:latest --name multi-node-cluster
 
 kind load docker-image audio-service:latest --name multi-node-cluster
 
+
+docker ps -aq | xargs -r docker inspect --format '{{.Id}} {{.Name}}' | grep -v kind | awk '{print $1}' | xargs -r docker rm -f
+docker images -q | xargs -r docker inspect --format '{{.Id}} {{.RepoTags}}' | grep -v kind | awk '{print $1}' | xargs -r docker rmi -f
+
 kind load docker-image music-service:latest --name multi-node-cluster
 
 kind load docker-image pdf-service:latest --name multi-node-cluster

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-shortner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url-shortner
+  template:
+    metadata:
+      labels:
+        app: url-shortner
+    spec:
+      containers:
+      - name: url-shortner
+        image: docker.io/library/url-shortner-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50007
+        env:
+        - name: DB_HOST
+          value: "user-db"
+        - name: DB_USER
+          value: "user"
+        - name: DB_PASSWORD
+          value: "userpass"
+        - name: DB_NAME
+          value: "usersdb"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: url-shortner
+spec:
+  type: NodePort
+  selector:
+    app: url-shortner
+  ports:
+  - port: 50007
+    targetPort: 50007
+    nodePort: 30007

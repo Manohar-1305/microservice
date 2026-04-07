@@ -34,10 +34,9 @@ kind: Service
 metadata:
   name: url-shortner
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: url-shortner
   ports:
   - port: 50007
     targetPort: 50007
-    nodePort: 30007

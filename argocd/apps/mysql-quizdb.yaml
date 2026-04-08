@@ -12,7 +12,10 @@ spec:
   source:
     repoURL: https://github.com/Manohar-1305/microservice.git
     targetRevision: main
-    path: k8s-manifest
+    path: helm/mysql-db 
+    helm:
+      valueFiles:
+        - values.yaml
 
   destination:
     server: https://kubernetes.default.svc

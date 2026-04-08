@@ -1,0 +1,15 @@
+name: Build User Service
+on:
+  push:
+    paths:
+      - 'code/user_service/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code/user_service
+    steps:
+    - uses: actions/checkout@v4
+
+    - run: docker build -t user-service .

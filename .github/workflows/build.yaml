@@ -11,6 +11,7 @@ on:
 env:
   IMAGE_NAME: user-service
   DOCKER_USERNAME: manoharshetty507
+  VIRTUAL_ENV: .venv
 
 jobs:
   build:
@@ -23,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-        - name: Install python3-venv
+    - name: Install python3-venv
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -43,19 +44,10 @@ jobs:
         $VIRTUAL_ENV/bin/pip install -r requirements.txt
         $VIRTUAL_ENV/bin/pip install pytest
 
-    - name: OWASP Dependency Check
-      run: |
-        docker run --rm \
-        -v $(pwd):/src \
-        owasp/dependency-check \
-        --scan /src \
-        --format ALL \
-        --out /src || true
-
     - name: Run Unit Tests
       run: |
         $VIRTUAL_ENV/bin/pytest -v -m "not integration"
-        
+
     - name: Login
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
 

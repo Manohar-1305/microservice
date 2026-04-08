@@ -20,13 +20,20 @@ jobs:
         working-directory: code/user_service
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
     - name: Login to DockerHub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+    - name: Show Username (debug)
+      run: echo ${{ secrets.DOCKER_USERNAME }}
+
     - name: Build Image
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+
+    - name: List Images (debug)
+      run: docker images
 
     - name: Push Image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest

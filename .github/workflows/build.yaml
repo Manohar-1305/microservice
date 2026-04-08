@@ -1,15 +1,24 @@
 name: Build User Service
+
 on:
+  workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'code/user_service/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: code/user_service
-    steps:
-    - uses: actions/checkout@v4
 
-    - run: docker build -t user-service .
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t user-service .

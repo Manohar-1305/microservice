@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: { { include "mysql-quizdb.fullname" . } }
+  namespace: { { .Values.namespace } }
+spec:
+  serviceName: { { include "mysql-quizdb.fullname" . } }
+  replicas: { { .Values.replicaCount } }
+  selector:
+    matchLabels: { { - include "mysql-quizdb.labels" . | nindent 6 } }
+  template:
+    metadata:
+      labels: { { - include "mysql-quizdb.labels" . | nindent 8 } }
+    spec:
+      containers:
+        - name: mysql
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: { { .Values.mysql.rootPassword } }
+            - name: MYSQL_DATABASE
+              value: { { .Values.mysql.database } }
+            - name: MYSQL_USER
+              value: { { .Values.mysql.user } }
+            - name: MYSQL_PASSWORD
+              value: { { .Values.mysql.password } }
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes:
+          - { { .Values.persistence.accessMode } }
+        resources:
+          requests:
+            storage: { { .Values.persistence.size } }

@@ -1,0 +1,17 @@
+namespace: microservices
+
+replicaCount: 1
+
+image:
+  repository: mysql
+  tag: "8"
+
+mysql:
+  database: usersdb
+  rootPassword: rootpass
+  user: user
+  password: userpass
+
+persistence:
+  accessMode: ReadWriteOnce
+  size: 1Gi

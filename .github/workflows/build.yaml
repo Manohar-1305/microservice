@@ -24,29 +24,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install python3-venv
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          python3-venv \
-          python3-dev \
-          pkg-config \
-          default-libmysqlclient-dev \
-          build-essential
+    - name: Install test deps
+      run: pip install pytest flask mysql-connector-python
 
-    - name: Set Up Virtual Environment
-      run: |
-        python3 -m venv $VIRTUAL_ENV
-        $VIRTUAL_ENV/bin/pip install --upgrade pip
-
-    - name: Install Dependencies
-      run: |
-        $VIRTUAL_ENV/bin/pip install -r requirements.txt
-        $VIRTUAL_ENV/bin/pip install pytest
-
-    - name: Run Unit Tests
-      run: |
-        $VIRTUAL_ENV/bin/pytest -v -m "not integration"
+    - name: Run tests
+      run: pytest
 
     - name: Login
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin

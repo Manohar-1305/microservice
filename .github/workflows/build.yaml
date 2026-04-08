@@ -1,4 +1,4 @@
-name: Build and Push User Service
+name: Build User Microservice Service
 
 on:
   workflow_dispatch:

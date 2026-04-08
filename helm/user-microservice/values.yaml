@@ -1,0 +1,19 @@
+namespace: microservices
+
+replicaCount: 1
+
+image:
+  repository: manoharshetty507/user-service
+  tag: latest
+  pullPolicy: Always
+
+service:
+  name: user-service
+  port: 5006
+  targetPort: 5006
+
+env:
+  DB_HOST: user-db
+  DB_USER: user
+  DB_PASSWORD: userpass
+  DB_NAME: usersdb

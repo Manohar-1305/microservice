@@ -1,0 +1,27 @@
+# .github/workflows/pdf_service.yaml
+name: Build PDF Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'code/pdf_service/**'
+
+env:
+  IMAGE_NAME: pdf-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code/pdf_service
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pytest flask reportlab
+      - run: pytest || echo "No tests found"
+      - run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

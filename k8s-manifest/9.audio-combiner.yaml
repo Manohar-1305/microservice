@@ -18,7 +18,7 @@ spec:
         # 👉 USE ONE OF THESE (comment the other)
 
         # Docker Hub
-        image: <your-dockerhub-username>/audio-combiner-service:latest
+        image: manoharshetty507/audio-combiner-service:latest
 
         # ECR
         # image: <account-id>.dkr.ecr.<region>.amazonaws.com/audio-combiner-service:latest

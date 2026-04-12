@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audio-combiner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audio-combiner
+  template:
+    metadata:
+      labels:
+        app: audio-combiner
+    spec:
+      containers:
+      - name: audio-combiner
+        image: audio-combiner-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5011
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audio-combiner-service
+spec:
+  selector:
+    app: audio-combiner
+  ports:
+    - protocol: TCP
+      port: 5011
+      targetPort: 5011
+  type: ClusterIP

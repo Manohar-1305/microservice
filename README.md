@@ -5,6 +5,8 @@ gateway
 ----------
 docker rm -f gateway-service && docker build --no-cache -t gateway-service . && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
 
+MYSQL
+---------
 docker run -d --name mysql-container --network micro-net -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=mydb -p 3306:3306 mysql:8
 
 docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=rootpass -e MYSQL_DATABASE=usersdb -e MYSQL_USER=user -e MYSQL_PASSWORD=userpass -p 3306:3306 mysql:8

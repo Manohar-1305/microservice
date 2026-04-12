@@ -10,33 +10,37 @@
         color: white;
         margin: 0;
         padding: 0;
+        position: relative;
       }
 
-      .top-bar {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 30px;
-        background: #020617;
-      }
-
-      .top-bar a {
-        text-decoration: none;
+      /* Home top right */
+      .home-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: #3b82f6;
         padding: 8px 12px;
         border-radius: 6px;
+        text-decoration: none;
         color: white;
         font-size: 14px;
-      }
-
-      .home-btn {
-        background: #3b82f6;
       }
 
       .home-btn:hover {
         background: #2563eb;
       }
 
+      /* Logout bottom center */
       .logout-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         background: #ef4444;
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
       }
 
       .logout-btn:hover {
@@ -47,14 +51,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: calc(100vh - 60px);
+        height: 100vh;
       }
 
       .container {
         background: #1e293b;
         padding: 30px;
         border-radius: 12px;
-        width: 400px;
+        width: 420px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       }
 
@@ -128,14 +132,11 @@
   </head>
 
   <body>
-    <div class="top-bar">
-      <a href="/home" class="home-btn">🏠 Home</a>
-      <a href="/logout" class="logout-btn">Logout</a>
-    </div>
+    <a href="/home" class="home-btn">🏠 Home</a>
 
     <div class="main-wrapper">
       <div class="container">
-        <h1>Audio Combiner</h1>
+        <h1>🎧 Audio Combiner</h1>
 
         <div class="upload">
           <input type="file" id="fileInput" accept="audio/*" />
@@ -150,10 +151,14 @@
           enctype="multipart/form-data"
         >
           <input type="file" name="audio" id="hiddenFiles" multiple hidden />
-          <button class="main-btn" type="submit">Combine & Download</button>
+          <button class="main-btn" type="submit">
+            Combine Multiple Audio Into One
+          </button>
         </form>
       </div>
     </div>
+
+    <a href="/logout" class="logout-btn">Logout</a>
 
     <script>
       let filesArray = [];
@@ -181,9 +186,9 @@
           row.innerHTML = `
             <span class="name">${file.name}</span>
             <div class="actions">
-                <button type="button" onclick="moveUp(${index})">↑</button>
-                <button type="button" onclick="moveDown(${index})">↓</button>
-                <button type="button" onclick="removeFile(${index})">✕</button>
+              <button type="button" onclick="moveUp(${index})">↑</button>
+              <button type="button" onclick="moveDown(${index})">↓</button>
+              <button type="button" onclick="removeFile(${index})">✕</button>
             </div>
           `;
 

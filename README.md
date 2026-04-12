@@ -77,6 +77,10 @@ word converter
 ==============
 docker rm -f word2pdf-service 2>/dev/null; docker build --no-cache -t word2pdf-service . && docker run -d --name word2pdf-service --network micro-net -p 5005:5005 word2pdf-service
 
+Audio_Converter
+=================
+
+docker run -d   --name audio-combiner-service   --network micro-net  && docker run -d   --name audio-combiner-service   --network micro-net   -p 5011:5011   audio-combiner-service
 
 
 

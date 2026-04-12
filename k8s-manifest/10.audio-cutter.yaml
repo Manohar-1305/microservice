@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audio-cutter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audio-cutter
+  template:
+    metadata:
+      labels:
+        app: audio-cutter
+    spec:
+      containers:
+      - name: audio-cutter
+
+        # 👉 USE ONE
+
+        # Docker Hub
+        image: manoharshetty507/audio-cutter-service:latest
+
+        # ECR
+        # image: <account-id>.dkr.ecr.<region>.amazonaws.com/audio-cutter-service:latest
+
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50010
+
+      # 👉 ONLY for private ECR
+      # imagePullSecrets:
+      # - name: ecr-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audio-cutter-service
+spec:
+  selector:
+    app: audio-cutter
+  ports:
+    - port: 50010
+      targetPort: 50010
+  type: ClusterIP

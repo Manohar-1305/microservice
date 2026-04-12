@@ -14,6 +14,7 @@ USER_SERVICE = config.USER_SERVICE
 URL_SHORTENER_SERVICE = config.URL_SHORTENER_SERVICE
 TODO_SERVICE = config.TODO_SERVICE
 AUDIO_COMBINER_SERVICE = config.AUDIO_COMBINER_SERVICE
+AUDIO_CUTTER_SERVICE = config.AUDIO_CUTTER_SERVICE
 # -------- ROOT --------
 @app.route('/')
 def root():
@@ -65,6 +66,42 @@ def register():
         return redirect('/login')
 
     return "User already exists"
+
+#----------Audio Cutter------------
+@app.route('/audio-cutter')
+def audio_cutter_page():
+    auth = check_auth()
+    if auth: return auth
+
+    r = requests.get(f"{AUDIO_CUTTER_SERVICE}/audio-cutter")
+    return Response(r.content, r.status_code)
+
+
+@app.route('/audio-cutter/cut', methods=['POST'])
+def audio_cutter_cut():
+    auth = check_auth()
+    if auth: return auth
+
+    file = request.files['audio']
+
+    r = requests.post(
+        f"{AUDIO_CUTTER_SERVICE}/audio-cutter/cut",
+        files={'audio': (file.filename, file.stream, file.mimetype)},
+        data={
+            'start': request.form['start'],
+            'end': request.form['end']
+        }
+    )
+
+    return Response(
+        r.content,
+        r.status_code,
+        content_type=r.headers.get('Content-Type'),
+        headers={
+            "Content-Disposition": r.headers.get("Content-Disposition", "")
+        }
+    )
+
 
 # -------- AUDIO COMBINER --------
 @app.route('/audio-combiner')
@@ -359,3 +396,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
+

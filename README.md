@@ -65,6 +65,7 @@ docker rm -f music-service 2>/dev/null; docker build --no-cache -t music-service
 YOUTUBE Service
 =================
 docker rm -f youtube-service 2>/dev/null; docker build --no-cache -t youtube-service .; docker run -d --name youtube-service --network micro-net -p 5002:5002 youtube-service
+
 docker rm -f youtube-service 2>/dev/null; docker build --no-cache -t youtube-service ~/youtube_downloader && docker run -d --name youtube-service --network micro-net -p 5002:5002 youtube-service
 
 PDF converter

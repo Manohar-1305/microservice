@@ -81,16 +81,12 @@ docker rm -f word2pdf-service 2>/dev/null; docker build --no-cache -t word2pdf-s
 Audio_Combiner
 =================
 
-docker run -d   --name audio-combiner-service   --network micro-net  && docker run -d   --name audio-combiner-service   --network micro-net   -p 5011:5011   audio-combiner-service
+docker rm -f audio-combiner-service 2>/dev/null; docker build --no-cache -t audio-combiner-service .; docker run -d --name audio-combiner-service --network micro-net -p 5011:5011 audio-combiner-service
 
 
 Audio Cutter
 ============
-docker rm -f audio-cutter-service
-
-docker build -t audio-cutter-service .
-
-docker run -d --name audio-cutter-service --network micro-net -p 50010:50010 audio-cutter-service
+docker rm -f audio-cutter-service; docker build -t audio-cutter-service .; docker run -d --name audio-cutter-service --network micro-net -p 50010:50010 audio-cutter-service
 
 -------------------------
 Upload the image locally

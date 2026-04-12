@@ -10,3 +10,5 @@ USER_SERVICE = os.getenv("USER_SERVICE_URL", "http://user-service:5006")
 # add these two micrservices
 URL_SHORTENER_SERVICE = os.getenv("URL_SHORTENER_SERVICE_URL","http://url-shortner-service:50007")
 TODO_SERVICE = os.getenv("TODO_SERVICE_URL","http://todo-service:50009")
+AUDIO_COMBINER_SERVICE = os.getenv("AUDIO_COMBINER_SERVICE_URL","http://audio-combiner-service:5011")
+

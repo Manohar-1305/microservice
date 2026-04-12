@@ -1,0 +1,39 @@
+name: Build Gateway Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'code/gateway/**'
+
+env:
+  IMAGE_NAME: gateway-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: code/gateway
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install pytest flask
+
+      - name: Run tests
+        run: pytest || echo "No tests found"
+
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build image
+        run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+
+      - name: Push image
+        run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

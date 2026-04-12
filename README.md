@@ -3,14 +3,7 @@ docker inspect gateway-service | grep micro-net
 
 gateway
 ----------
-
-docker rm -f gateway-service
-
-docker run -d \
-  --name gateway-service \
-  --network micro-net \
-  -p 5000:5000 \
-  gateway-service
+docker rm -f gateway-service && docker build --no-cache -t gateway-service . && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
 
 docker run -d --name mysql-container --network micro-net -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=mydb -p 3306:3306 mysql:8
 

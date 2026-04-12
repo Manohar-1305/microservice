@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Audio Combiner</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background: #1e293b;
+        padding: 30px;
+        border-radius: 12px;
+        width: 400px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .upload {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      input[type="file"] {
+        flex: 1;
+        color: white;
+      }
+
+      button {
+        background: #3b82f6;
+        border: none;
+        padding: 8px 12px;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #2563eb;
+      }
+
+      .file-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #334155;
+        padding: 8px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+
+      .name {
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 200px;
+      }
+
+      .actions button {
+        margin-left: 5px;
+        background: #475569;
+      }
+
+      .actions button:hover {
+        background: #64748b;
+      }
+
+      .main-btn {
+        width: 100%;
+        margin-top: 15px;
+        background: #22c55e;
+        font-weight: bold;
+      }
+
+      .main-btn:hover {
+        background: #16a34a;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Audio Combiner</h1>
+
+      <div class="upload">
+        <input type="file" id="fileInput" accept="audio/*" />
+        <button onclick="addFile()">Add</button>
+      </div>
+
+      <div id="fileList"></div>
+
+      <form
+        action="/audio-combiner/combine"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="audio" id="hiddenFiles" multiple hidden />
+        <button class="main-btn" type="submit">Combine & Download</button>
+      </form>
+    </div>
+
+    <script>
+      let filesArray = [];
+
+      const fileInput = document.getElementById("fileInput");
+      const fileList = document.getElementById("fileList");
+      const hiddenFiles = document.getElementById("hiddenFiles");
+
+      function addFile() {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        filesArray.push(file);
+        fileInput.value = "";
+        renderList();
+      }
+
+      function renderList() {
+        fileList.innerHTML = "";
+
+        filesArray.forEach((file, index) => {
+          const row = document.createElement("div");
+          row.className = "file-row";
+
+          row.innerHTML = `
+            <span class="name">${file.name}</span>
+            <div class="actions">
+                <button type="button" onclick="moveUp(${index})">↑</button>
+                <button type="button" onclick="moveDown(${index})">↓</button>
+                <button type="button" onclick="removeFile(${index})">✕</button>
+            </div>
+          `;
+
+          fileList.appendChild(row);
+        });
+
+        updateHiddenFiles();
+      }
+
+      function moveUp(i) {
+        if (i === 0) return;
+        [filesArray[i - 1], filesArray[i]] = [filesArray[i], filesArray[i - 1]];
+        renderList();
+      }
+
+      function moveDown(i) {
+        if (i === filesArray.length - 1) return;
+        [filesArray[i + 1], filesArray[i]] = [filesArray[i], filesArray[i + 1]];
+        renderList();
+      }
+
+      function removeFile(i) {
+        filesArray.splice(i, 1);
+        renderList();
+      }
+
+      function updateHiddenFiles() {
+        const dt = new DataTransfer();
+        filesArray.forEach((f) => dt.items.add(f));
+        hiddenFiles.files = dt.files;
+      }
+    </script>
+  </body>
+</html>

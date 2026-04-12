@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Audio Cutter</title>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: radial-gradient(circle at top, #1e1b4b, #020617);
+        color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: rgba(15, 23, 42, 0.95);
+        padding: 30px;
+        border-radius: 18px;
+        width: 440px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 26px;
+        color: #c4b5fd;
+      }
+
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        background: #020617;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        color: #94a3b8;
+        cursor: pointer;
+      }
+
+      audio {
+        margin-top: 12px;
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .slider-group {
+        margin-top: 18px;
+      }
+
+      .time-box {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #a5b4fc;
+        margin-bottom: 5px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: #8b5cf6;
+        cursor: pointer;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 22px;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(135deg, #8b5cf6, #6366f1);
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.25s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>🎵 Audio Cutter</h1>
+
+      <input type="file" id="audioFile" accept="audio/*" />
+
+      <audio id="player" controls></audio>
+
+      <div id="controls" class="hidden">
+        <div class="slider-group">
+          <div class="time-box">
+            <span>Start</span>
+            <span id="startLabel">00:00:00</span>
+          </div>
+          <input type="range" id="startRange" min="0" value="0" />
+        </div>
+
+        <div class="slider-group">
+          <div class="time-box">
+            <span>End</span>
+            <span id="endLabel">00:00:00</span>
+          </div>
+          <input type="range" id="endRange" min="0" value="0" />
+        </div>
+
+        <form
+          action="/audio-cutter/cut"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="start" id="startInput" />
+          <input type="hidden" name="end" id="endInput" />
+          <input type="file" name="audio" id="hiddenFile" class="hidden" />
+          <button type="submit">✂️ Cut & Download</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const fileInput = document.getElementById("audioFile");
+      const player = document.getElementById("player");
+      const controls = document.getElementById("controls");
+
+      const startRange = document.getElementById("startRange");
+      const endRange = document.getElementById("endRange");
+
+      const startLabel = document.getElementById("startLabel");
+      const endLabel = document.getElementById("endLabel");
+
+      const startInput = document.getElementById("startInput");
+      const endInput = document.getElementById("endInput");
+
+      const hiddenFile = document.getElementById("hiddenFile");
+
+      fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const url = URL.createObjectURL(file);
+
+        player.src = url;
+        hiddenFile.files = this.files;
+
+        player.onloadedmetadata = function () {
+          const duration = Math.floor(player.duration);
+
+          startRange.max = duration;
+          endRange.max = duration;
+          endRange.value = duration;
+
+          updateStart();
+          updateEnd();
+
+          controls.classList.remove("hidden");
+        };
+      });
+
+      function formatTime(sec) {
+        sec = parseInt(sec);
+        let h = Math.floor(sec / 3600);
+        let m = Math.floor((sec % 3600) / 60);
+        let s = sec % 60;
+        return [h, m, s].map((v) => String(v).padStart(2, "0")).join(":");
+      }
+
+      function updateStart() {
+        if (parseInt(startRange.value) >= parseInt(endRange.value)) {
+          startRange.value = endRange.value - 1;
+        }
+        startLabel.innerText = formatTime(startRange.value);
+        startInput.value = formatTime(startRange.value);
+      }
+
+      function updateEnd() {
+        if (parseInt(endRange.value) <= parseInt(startRange.value)) {
+          endRange.value = parseInt(startRange.value) + 1;
+        }
+        endLabel.innerText = formatTime(endRange.value);
+        endInput.value = formatTime(endRange.value);
+      }
+
+      startRange.addEventListener("input", updateStart);
+      endRange.addEventListener("input", updateEnd);
+    </script>
+  </body>
+</html>

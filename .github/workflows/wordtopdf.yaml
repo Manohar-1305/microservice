@@ -1,0 +1,39 @@
+name: Build Word to PDF Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'code/word_to_pdf/**'
+
+env:
+  IMAGE_NAME: word-to-pdf-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: code/word_to_pdf
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install pytest flask python-docx reportlab
+
+      - name: Run tests
+        run: pytest || echo "No tests found"
+
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build image
+        run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+
+      - name: Push image
+        run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

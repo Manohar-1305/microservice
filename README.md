@@ -1,4 +1,5 @@
 docker network create micro-net
+
 docker inspect gateway-service | grep micro-net
 
 gateway

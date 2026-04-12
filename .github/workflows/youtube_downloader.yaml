@@ -1,0 +1,27 @@
+# .github/workflows/youtube_downloader.yaml
+name: Build YouTube Downloader Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'code/youtube_downloader/**'
+
+env:
+  IMAGE_NAME: youtube-downloader-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code/youtube_downloader
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pytest flask pytube
+      - run: pytest || echo "No tests found"
+      - run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

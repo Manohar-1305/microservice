@@ -1,0 +1,13 @@
+kubectl create secret docker-registry ecr-secret \
+  --docker-server=<account-id>.dkr.ecr.ap-south-1.amazonaws.com \
+  --docker-username=AWS \
+  --docker-password=$(aws ecr get-login-password --region ap-south-1) \
+  --docker-email=none
+
+docker tag audio-cutter-service <user>/audio-cutter-service:latest
+docker push <user>/audio-cutter-service:latest
+
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.ap-south-1.amazonaws.com
+
+docker tag audio-cutter-service <account-id>.dkr.ecr.ap-south-1.amazonaws.com/audio-cutter-service:latest
+docker push <account-id>.dkr.ecr.ap-south-1.amazonaws.com/audio-cutter-service:latest

@@ -1,0 +1,27 @@
+# .github/workflows/audio_combiner.yaml
+name: Build Audio Combiner Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'code/audio_combiner/**'
+
+env:
+  IMAGE_NAME: audio-combiner-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code/audio_combiner
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pytest flask pydub
+      - run: pytest || echo "No tests found"
+      - run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

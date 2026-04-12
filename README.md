@@ -83,6 +83,13 @@ Audio_Converter
 docker run -d   --name audio-combiner-service   --network micro-net  && docker run -d   --name audio-combiner-service   --network micro-net   -p 5011:5011   audio-combiner-service
 
 
+Audio Cutter
+============
+docker rm -f audio-cutter-service
+
+docker build -t audio-cutter-service .
+
+docker run -d --name audio-cutter-service --network micro-net -p 50010:50010 audio-cutter-service
 
 -------------------------
 Upload the image locally

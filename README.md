@@ -32,11 +32,15 @@ docker build --no-cache -t gateway-service . && docker stop gateway-service 2>/d
 
 docker stop gateway-service && docker rm gateway-service && docker build --no-cache -t gateway-service ~/gateway && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
 
+docker build --no-cache -t gateway-service . && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
+
 User Service
 =============
 docker build --no-cache -t user-service . && docker stop user-service 2>/dev/null; docker rm user-service 2>/dev/null; docker run -d --name user-service --network micro-net -p 5006:5006 user-service
 
 docker stop user-service && docker rm user-service && docker build --no-cache -t user-service ~/user_service && docker run -d --name user-service --network micro-net -p 5006:5006 user-service
+
+docker build --no-cache -t user-service . && docker run -d --name user-service --network micro-net -p 5006:5006 user-service
 
 Audio Service
 ==============

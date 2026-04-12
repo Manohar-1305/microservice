@@ -13,6 +13,7 @@ YTDL_SERVICE = config.YTDL_SERVICE
 USER_SERVICE = config.USER_SERVICE
 URL_SHORTENER_SERVICE = config.URL_SHORTENER_SERVICE
 TODO_SERVICE = config.TODO_SERVICE
+AUDIO_COMBINER_SERVICE = config.AUDIO_COMBINER_SERVICE
 # -------- ROOT --------
 @app.route('/')
 def root():
@@ -65,6 +66,43 @@ def register():
 
     return "User already exists"
 
+# -------- AUDIO COMBINER --------
+@app.route('/audio-combiner')
+def audio_combiner_page():
+    auth = check_auth()
+    if auth:
+        return auth
+
+    r = requests.get(f"{AUDIO_COMBINER_SERVICE}/audio-combiner")
+    return Response(r.content, r.status_code)
+
+
+@app.route('/audio-combiner/combine', methods=['POST'])
+def audio_combiner_combine():
+    auth = check_auth()
+    if auth:
+        return auth
+
+    files = request.files.getlist('audio')
+
+    multiple_files = [
+        ('audio', (file.filename, file.stream, file.mimetype))
+        for file in files
+    ]
+
+    r = requests.post(
+        f"{AUDIO_COMBINER_SERVICE}/audio-combiner/combine",
+        files=multiple_files
+    )
+
+    return Response(
+        r.content,
+        r.status_code,
+        content_type=r.headers.get('Content-Type'),
+        headers={
+            "Content-Disposition": r.headers.get("Content-Disposition", "")
+        }
+    )
 
 # -------- HOME --------
 @app.route('/home')

@@ -15,7 +15,7 @@ spec:
       containers:
       - name: audio-cutter
         image: manoharshetty507/audio-cutter-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 50010
 ---

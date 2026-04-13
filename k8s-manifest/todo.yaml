@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: todo
-        image: docker.io/library/todo-service:latest
+        image: manoharshetty507/todo-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 50009

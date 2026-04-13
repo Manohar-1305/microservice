@@ -103,6 +103,8 @@ kind load docker-image music-service:latest --name multi-node-cluster
 
 kind load docker-image pdf-service:latest --name multi-node-cluster
 
+docker tag gateway-service:latest manoharshetty507/gateway-service:latest && docker push manoharshetty507/gateway-service:latest
+
 kind load docker-image user-service:latest --name multi-node-cluster
 
 kind load docker-image word2pdf-service:latest --name multi-node-cluster

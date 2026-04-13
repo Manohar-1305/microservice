@@ -16,7 +16,7 @@ spec:
       containers:
       - name: url-shortner
         image: manoharshetty507/url-shortner-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 50007
         env:

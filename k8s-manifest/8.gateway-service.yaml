@@ -16,7 +16,7 @@ spec:
       containers:
       - name: gateway
         image: manoharshetty507/gateway-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
 ---

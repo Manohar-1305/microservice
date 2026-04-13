@@ -16,7 +16,7 @@ spec:
       containers:
       - name: pdf-service
         image: manoharshetty507/pdf-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 5001
 ---

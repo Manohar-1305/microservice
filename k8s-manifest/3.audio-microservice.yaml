@@ -16,7 +16,7 @@ spec:
       containers:
         - name: audio-service
           image: manoharshetty507/audio-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 5003
 

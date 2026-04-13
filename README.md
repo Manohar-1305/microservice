@@ -90,6 +90,12 @@ Audio_Combiner
 
 docker rm -f audio-combiner-service 2>/dev/null; docker build --no-cache -t audio-combiner-service .; docker run -d --name audio-combiner-service --network micro-net -p 5011:5011 audio-combiner-service
 
+docker rm -f audio-combiner-service 2>/dev/null && \
+docker build --no-cache -t audio-combiner-service . && \
+docker run -d --name audio-combiner-service --network micro-net -p 5011:5011 audio-combiner-service && \
+docker tag audio-combiner-service:latest manoharshetty507/audio-combiner-service:v1 && \
+docker push manoharshetty507/audio-combiner-service:v1
+
 
 Audio Cutter
 ============

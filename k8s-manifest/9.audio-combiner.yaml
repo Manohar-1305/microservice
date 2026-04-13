@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: audio-combiner
+  namespace: microservices
 spec:
   replicas: 1
   selector:
@@ -14,32 +15,21 @@ spec:
     spec:
       containers:
       - name: audio-combiner
-
-        # 👉 USE ONE OF THESE (comment the other)
-
-        # Docker Hub
         image: manoharshetty507/audio-combiner-service:latest
-
-        # ECR
-        # image: <account-id>.dkr.ecr.<region>.amazonaws.com/audio-combiner-service:latest
-
         imagePullPolicy: Always
         ports:
         - containerPort: 5011
-
-      # 👉 ONLY NEEDED FOR PRIVATE ECR
-      # imagePullSecrets:
-      # - name: ecr-secret
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: audio-combiner-service
+  namespace: microservices
 spec:
   selector:
     app: audio-combiner
   ports:
-    - port: 5011
+    - protocol: TCP
+      port: 5011
       targetPort: 5011
   type: ClusterIP

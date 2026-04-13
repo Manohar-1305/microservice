@@ -16,7 +16,7 @@ spec:
       containers:
       - name: todo
         image: manoharshetty507/todo-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 50009
         env:

@@ -16,7 +16,7 @@ spec:
       containers:
       - name: word2pdf-service
         image: manoharshetty507/word-to-pdf-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 5005
 ---

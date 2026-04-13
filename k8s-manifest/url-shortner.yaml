@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: url-shortner
-        image: docker.io/library/url-shortner-service:latest
+        image: manoharshetty507/url-shortner-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 50007

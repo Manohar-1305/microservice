@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: docker.io/library/user-service:latest
+        image: manoharshetty507/user-service:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5006

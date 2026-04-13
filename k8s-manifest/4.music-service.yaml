@@ -16,7 +16,7 @@ spec:
       containers:
       - name: music-service
         image: manoharshetty507/music-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 5004
 ---

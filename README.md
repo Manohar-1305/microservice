@@ -36,6 +36,13 @@ docker build --no-cache -t url-shortner-service . && docker stop url-shortner-se
 Gateway
 =======
 
+docker build --no-cache -t gateway-service . && \
+docker stop gateway-service 2>/dev/null && \
+docker rm gateway-service 2>/dev/null && \
+docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service && \
+docker tag gateway-service:latest manoharshetty507/gateway-service:latest && \
+docker push manoharshetty507/gateway-service:latest
+
 docker build --no-cache -t gateway-service . && docker stop gateway-service 2>/dev/null; docker rm gateway-service 2>/dev/null; docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
 
 docker stop gateway-service && docker rm gateway-service && docker build --no-cache -t gateway-service ~/gateway && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
@@ -104,6 +111,8 @@ kind load docker-image music-service:latest --name multi-node-cluster
 kind load docker-image pdf-service:latest --name multi-node-cluster
 
 docker tag gateway-service:latest manoharshetty507/gateway-service:latest && docker push manoharshetty507/gateway-service:latest
+
+k delete -f 8.gateway-service.yaml && k apply -f 8.gateway-service.yaml
 
 docker tag user-service:latest manoharshetty507/user-service:latest && docker push manoharshetty507/user-service:latest
 

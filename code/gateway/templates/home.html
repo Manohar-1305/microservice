@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
 <style>
-/* moving banner */
 .banner{
     position:fixed;
     top:0;
@@ -32,18 +31,12 @@
     0%{transform:translateX(100%);}
     100%{transform:translateX(-100%);}
 }
-
-/* push content down */
-.container{
-    margin-top:60px;
-}
 </style>
 
 </head>
 
 <body>
 
-<!-- Moving Banner -->
 <div class="banner">
     <div class="banner-text">
         💡 Explore these free tools, experiment freely, and turn your ideas into real solutions!
@@ -52,10 +45,11 @@
 
 <div class="container">
 
-<h1 style="margin-bottom:5px; text-align:center; color:white;">Tools Hub</h1>
-<p style="color:#94a3b8; margin-bottom:20px; text-align:center;">
+<h1>Tools Hub</h1>
+<p class="subtitle-top">
     Build space for creating and experimenting.
 </p>
+
 <div class="grid">
 
 <a class="service" href="/audio">
@@ -99,30 +93,32 @@
     <div class="title">Todo Service</div>
     <div class="subtitle">Manage your daily tasks</div>
 </a>
+
 <a class="service" href="/audio-combiner">
     <div class="icon">🎧</div>
     <div class="title">Audio Combiner</div>
     <div class="subtitle">Merge multiple audio files</div>
 </a>
+
 <a class="service" href="/audio-cutter">
     <div class="icon">✂️</div>
     <div class="title">Audio Cutter</div>
     <div class="subtitle">Trim audio files</div>
 </a>
 
-<div class="footer blink">
-    ⚡ One Gateway. Multiple Services. Seamless Experience.
 </div>
 
-<div style="display:flex; justify-content:center; margin-top:15px;">
-    <a href="/logout" style="padding:12px 25px; background:#ef4444; color:white; text-decoration:none; border-radius:10px; font-weight:600; transition:0.3s;">Logout</a>
-</div>
+<div class="bottom-section">
+    <a href="/logout" class="logout-btn">Logout</a>
 
-<div style="text-align:center; margin-top:15px; font-size:12px; color:#94a3b8;">
-    © 2026 WorkDesk. All rights reserved.
-</div>
+    <div class="footer blink">
+        ⚡ One Gateway. Multiple Services. Seamless Experience.
+    </div>
 
+    <div class="copyright">
+        © 2026 WorkDesk. All rights reserved.
+    </div>
 </div>
-
+</div>
 </body>
 </html>

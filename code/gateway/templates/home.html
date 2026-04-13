@@ -1,124 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WorkDesk</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
-<style>
-.banner{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    background:#0ea5e9;
-    color:white;
-    overflow:hidden;
-    white-space:nowrap;
-    z-index:1000;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.banner-text{
-    display:inline-block;
-    padding:10px 0;
-    animation:scroll-left 15s linear infinite;
-    font-weight:600;
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: #000000;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes scroll-left{
-    0%{transform:translateX(100%);}
-    100%{transform:translateX(-100%);}
+/* container */
+.container {
+  width: 95%;
+  max-width: 1100px;
+  margin: 60px auto 0;
+  flex: 1;
 }
-</style>
 
-</head>
+/* heading */
+h1 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 5px;
+  background: linear-gradient(90deg, #38bdf8, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
-<body>
+.subtitle-top {
+  text-align: center;
+  color: #94a3b8;
+  margin-bottom: 15px;
+  font-size: 13px;
+}
 
-<div class="banner">
-    <div class="banner-text">
-        💡 Explore these free tools, experiment freely, and turn your ideas into real solutions!
-    </div>
-</div>
+/* grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
 
-<div class="container">
+/* cards */
+.service {
+  border-radius: 16px;
+  padding: 26px 18px;
+  text-decoration: none;
+  color: white;
+  transition: 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.15);
+}
 
-<h1>Tools Hub</h1>
-<p class="subtitle-top">
-    Build space for creating and experimenting.
-</p>
+.service:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  border: 1px solid #38bdf8;
+}
 
-<div class="grid">
+/* colors */
+.service:nth-child(1){background:linear-gradient(135deg,#0ea5e9,#0369a1);}
+.service:nth-child(2){background:linear-gradient(135deg,#22c55e,#166534);}
+.service:nth-child(3){background:linear-gradient(135deg,#f59e0b,#b45309);}
+.service:nth-child(4){background:linear-gradient(135deg,#a855f7,#6b21a8);}
+.service:nth-child(5){background:linear-gradient(135deg,#ef4444,#7f1d1d);}
+.service:nth-child(6){background:linear-gradient(135deg,#06b6d4,#9333ea);}
+.service:nth-child(7){background:linear-gradient(135deg,#14b8a6,#065f46);}
+.service:nth-child(8){background:linear-gradient(135deg,#6366f1,#1e3a8a);}
+.service:nth-child(9){background:linear-gradient(135deg,#f43f5e,#7f1d1d);}
 
-<a class="service" href="/audio">
-    <div class="icon">🎙️</div>
-    <div class="title">Audio Service</div>
-    <div class="subtitle">Handle audio processing</div>
-</a>
+/* content */
+.icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
 
-<a class="service" href="/music">
-    <div class="icon">🎶</div>
-    <div class="title">Music Service</div>
-    <div class="subtitle">Manage music streaming</div>
-</a>
+.title {
+  font-size: 18px;
+  font-weight: 700;
+}
 
-<a class="service" href="/pdf">
-    <div class="icon">📑</div>
-    <div class="title">PDF Converter</div>
-    <div class="subtitle">Convert files to PDF</div>
-</a>
+.subtitle {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  margin-top: 5px;
+  text-align: center;
+}
 
-<a class="service" href="/word_to_pdf">
-    <div class="icon">🧾</div>
-    <div class="title">Word → PDF</div>
-    <div class="subtitle">DOCX conversion service</div>
-</a>
+/* bottom */
+.bottom-section {
+  text-align: center;
+  margin-top: 15px;
+  padding-bottom: 10px;
+}
 
-<a class="service" href="/youtube">
-    <div class="icon">▶️</div>
-    <div class="title">YouTube Downloader</div>
-    <div class="subtitle">Download videos</div>
-</a>
+.logout-btn {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  background: #ef4444;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
 
-<a class="service" href="/shortener">
-    <div class="icon">🔗</div>
-    <div class="title">URL Shortener</div>
-    <div class="subtitle">Create and manage short links</div>
-</a>
+.logout-btn:hover {
+  background: #b91c1c;
+}
 
-<a class="service" href="/todo">
-    <div class="icon">🗂️</div>
-    <div class="title">Todo Service</div>
-    <div class="subtitle">Manage your daily tasks</div>
-</a>
+.footer {
+  color: #64748b;
+  font-size: 13px;
+}
 
-<a class="service" href="/audio-combiner">
-    <div class="icon">🎧</div>
-    <div class="title">Audio Combiner</div>
-    <div class="subtitle">Merge multiple audio files</div>
-</a>
+.copyright {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #94a3b8;
+}
 
-<a class="service" href="/audio-cutter">
-    <div class="icon">✂️</div>
-    <div class="title">Audio Cutter</div>
-    <div class="subtitle">Trim audio files</div>
-</a>
+/* animation */
+.blink {
+  animation: blinkAnim 1.2s infinite;
+}
 
-</div>
+@keyframes blinkAnim {
+  0% {opacity:1;}
+  50% {opacity:0.2;}
+  100% {opacity:1;}
+}
 
-<div class="bottom-section">
-    <a href="/logout" class="logout-btn">Logout</a>
-
-    <div class="footer blink">
-        ⚡ One Gateway. Multiple Services. Seamless Experience.
-    </div>
-
-    <div class="copyright">
-        © 2026 WorkDesk. All rights reserved.
-    </div>
-</div>
-</div>
-</body>
-</html>
+/* fallback for smaller screens */
+@media (max-height: 700px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

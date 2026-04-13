@@ -16,7 +16,7 @@ spec:
       containers:
       - name: youtube-service
         image: manoharshetty507/youtube-service:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 5002
 ---

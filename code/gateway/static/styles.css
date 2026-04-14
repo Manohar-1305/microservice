@@ -9,7 +9,7 @@ body {
   background: #000000;
   color: white;
   height: 100vh;
-  overflow: hidden; /* no scroll */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -40,17 +40,17 @@ h1 {
   font-size: 13px;
 }
 
-/* grid: 5 + 4 compact */
+/* grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 15px;
+  gap: 18px;
 }
 
 /* cards */
 .service {
-  border-radius: 14px;
-  padding: 20px 15px;
+  border-radius: 16px;
+  padding: 26px 18px;
   text-decoration: none;
   color: white;
   transition: 0.3s ease;
@@ -77,25 +77,25 @@ h1 {
 .service:nth-child(8){background:linear-gradient(135deg,#6366f1,#1e3a8a);}
 .service:nth-child(9){background:linear-gradient(135deg,#f43f5e,#7f1d1d);}
 
-/* content sizing */
+/* content */
 .icon {
-  font-size: 28px;
+  font-size: 32px;
   margin-bottom: 8px;
 }
 
 .title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
 }
 
 .subtitle {
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(255,255,255,0.8);
   margin-top: 5px;
   text-align: center;
 }
 
-/* bottom section */
+/* bottom */
 .bottom-section {
   text-align: center;
   margin-top: 15px;
@@ -105,7 +105,7 @@ h1 {
 .logout-btn {
   display: inline-block;
   margin-bottom: 10px;
-  padding: 8px 18px;
+  padding: 10px 20px;
   background: #ef4444;
   color: white;
   border-radius: 8px;

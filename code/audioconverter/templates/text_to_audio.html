@@ -5,186 +5,243 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Text to Audio</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    font-family: 'Inter', Arial, sans-serif;
-    background:#020617;
-    height:100vh;
+    font-family:'Inter',sans-serif;
+    background:radial-gradient(circle at top,#0f172a,#020617);
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    color:white;
+    color:#e2e8f0;
 }
 
-/* container */
+/* MAIN CARD */
 .container{
-    width:420px;
-    padding:35px;
-    border-radius:16px;
-    background: rgba(30,41,59,0.7);
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+    width:100%;
+    max-width:460px;
+    padding:28px;
+    border-radius:18px;
+    background:#020617;
+    border:1px solid #1e293b;
+    box-shadow:0 30px 80px rgba(0,0,0,0.9);
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+/* HEADER */
+.header{
     text-align:center;
 }
 
-/* heading */
-h2{
-    margin-bottom:20px;
-    font-size:24px;
+.header h2{
+    font-size:22px;
+    font-weight:600;
+    color:#60a5fa;
 }
 
-/* textarea */
+.header p{
+    font-size:13px;
+    color:#64748b;
+}
+
+/* TEXTAREA */
 textarea{
     width:100%;
-    height:130px;
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    outline:none;
-    background:#0f172a;
-    color:white;
+    min-height:120px;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #1e293b;
+    background:#020617;
+    color:#e2e8f0;
     resize:none;
     font-size:14px;
+    transition:0.2s;
 }
 
 textarea:focus{
     border:1px solid #2563eb;
+    box-shadow:0 0 0 1px #2563eb;
 }
 
-/* button */
+/* CHAR COUNT */
+.char-count{
+    font-size:12px;
+    text-align:right;
+    color:#64748b;
+}
+
+/* BUTTON */
 button{
-    margin-top:15px;
     width:100%;
-    padding:12px;
+    padding:13px;
     border:none;
-    border-radius:8px;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    border-radius:10px;
+    background:#1d4ed8;
     color:white;
-    font-size:16px;
+    font-size:15px;
+    font-weight:500;
     cursor:pointer;
-    transition:0.3s;
+    transition:0.2s;
 }
 
 button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(37,99,235,0.5);
+    background:#2563eb;
 }
 
-/* loading text */
+button:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+}
+
+/* LOADING */
 .loading{
-    margin-top:10px;
     font-size:13px;
-    color:#94a3b8;
+    text-align:center;
     display:none;
 }
 
-/* audio */
+/* ERROR BOX */
+.error{
+    display:none;
+    padding:10px;
+    border-radius:8px;
+    background:#7f1d1d;
+    color:#fecaca;
+    font-size:13px;
+    text-align:center;
+}
+
+/* AUDIO */
 audio{
-    margin-top:20px;
     width:100%;
 }
 
-/* download button */
+/* DOWNLOAD */
 .download-btn{
     display:none;
-    margin-top:15px;
+    text-align:center;
     padding:12px;
-    background:linear-gradient(135deg,#22c55e,#16a34a);
-    border-radius:8px;
+    border-radius:10px;
+    background:#16a34a;
     color:white;
     text-decoration:none;
-    font-weight:600;
-    display:inline-block;
+    font-weight:500;
 }
 
 .download-btn:hover{
-    box-shadow:0 10px 25px rgba(34,197,94,0.5);
+    background:#22c55e;
 }
 
-/* HOME BUTTON */
+/* TOP BAR */
+.top-bar{
+    position:fixed;
+    top:20px;
+    right:25px;
+    display:flex;
+    gap:10px;
+}
+
+.top-bar a{
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:13px;
+    text-decoration:none;
+    font-weight:500;
+}
+
 .home-btn{
-    position:fixed;
-    top:25px;
-    right:30px;
-    padding:10px 18px;
-    border-radius:8px;
-    background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+    background:#0ea5e9;
     color:white;
-    text-decoration:none;
-    font-size:14px;
-    font-weight:600;
-    box-shadow:0 10px 25px rgba(56,189,248,0.3);
-    transition:0.3s;
 }
 
-.home-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(56,189,248,0.6);
-}
-
-/* LOGOUT BUTTON */
 .logout-btn{
-    position:fixed;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%);
-    padding:10px 20px;
-    border-radius:8px;
-    background:linear-gradient(135deg,#ef4444,#dc2626);
+    background:#dc2626;
     color:white;
-    text-decoration:none;
-    font-weight:600;
-    box-shadow:0 10px 25px rgba(239,68,68,0.4);
-    transition:0.3s;
-}
-
-.logout-btn:hover{
-    transform:translateX(-50%) translateY(-2px);
-    box-shadow:0 10px 25px rgba(239,68,68,0.7);
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>🎧 Text to Audio Converter</h2>
+<div class="header">
+<h2>Text → Audio</h2>
+<p>Generate speech from your text</p>
+</div>
 
-<textarea id="text" placeholder="Enter text to convert..."></textarea>
+<textarea id="text" placeholder="Type something... (max 1000 characters)"></textarea>
+<div class="char-count" id="charCount">0 / 1000</div>
 
-<button onclick="convert()">Convert</button>
+<button id="convertBtn" onclick="convert()">Generate Audio</button>
 
-<div class="loading" id="loading">Converting...</div>
+<div class="loading" id="loading">Processing...</div>
+
+<div class="error" id="errorBox"></div>
 
 <audio id="player" controls></audio>
 
-<a id="download" class="download-btn" download="audio.wav">⬇ Download Audio</a>
+<a id="download" class="download-btn" download="audio.wav">Download Audio</a>
 
 </div>
 
-<a href="/home" class="home-btn">🏠 Home</a>
+<div class="top-bar">
+<a href="/home" class="home-btn">Home</a>
 <a href="/logout" class="logout-btn">Logout</a>
+</div>
 
 <script>
 
+const textarea = document.getElementById("text")
+const charCount = document.getElementById("charCount")
+const maxChars = 1000
+
+textarea.addEventListener("input", () => {
+    if(textarea.value.length > maxChars){
+        textarea.value = textarea.value.substring(0, maxChars)
+    }
+    charCount.innerText = textarea.value.length + " / " + maxChars
+})
+
+textarea.addEventListener("keydown", function(e){
+    if(e.ctrlKey && e.key === "Enter"){
+        convert()
+    }
+})
+
 async function convert(){
 
-const text=document.getElementById("text").value
+const text = textarea.value.trim()
+const loading = document.getElementById("loading")
+const player = document.getElementById("player")
+const downloadBtn = document.getElementById("download")
+const errorBox = document.getElementById("errorBox")
+const button = document.getElementById("convertBtn")
+
+errorBox.style.display="none"
 
 if(!text){
-    alert("Enter text first")
+    errorBox.innerText="Enter text first"
+    errorBox.style.display="block"
     return
 }
 
-document.getElementById("loading").style.display="block"
+button.disabled = true
+loading.style.display="block"
+downloadBtn.style.display="none"
+player.src=""
 
-const response=await fetch("/api/audio/convert",{
+try{
+
+const response = await fetch("/api/audio/convert",{
 method:"POST",
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
@@ -192,19 +249,29 @@ headers:{
 body:`text=${encodeURIComponent(text)}`
 })
 
-const blob=await response.blob()
-const url=URL.createObjectURL(blob)
+if(!response.ok){
+throw new Error("Conversion failed")
+}
 
-document.getElementById("player").src=url
+const blob = await response.blob()
+const url = URL.createObjectURL(blob)
 
-const downloadBtn=document.getElementById("download")
-downloadBtn.href=url
-downloadBtn.style.display="inline-block"
+player.src = url
 
-document.getElementById("loading").style.display="none"
+downloadBtn.href = url
+downloadBtn.style.display="block"
+
+}catch(e){
+errorBox.innerText="Failed to generate audio"
+errorBox.style.display="block"
+}
+
+loading.style.display="none"
+button.disabled = false
 
 }
 
 </script>
+
 </body>
 </html>

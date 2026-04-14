@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+<head>
+  <title>Audio Combiner</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: #020617;
+      color: #e2e8f0;
+    }
+
+    .home-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #2563eb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logout-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #dc2626;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .main-wrapper {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+    }
+
+    .container {
+      width:520px;
+      background:#020617;
+      padding:25px;
+      border-radius:18px;
+      border:1px solid #1e293b;
+      box-shadow:0 30px 80px rgba(0,0,0,0.9);
+    }
+
+    h1 {
+      text-align:center;
+      margin-bottom:20px;
+      color:#60a5fa;
+    }
+
+    .drop-zone {
+      border:2px dashed #334155;
+      padding:18px;
+      border-radius:12px;
+      text-align:center;
+      margin-bottom:12px;
+      cursor:pointer;
+    }
+
+    .upload-row{
+      display:flex;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    input[type="file"]{
+      flex:1;
+      padding:8px;
+      background:#020617;
+      border:1px solid #334155;
+      border-radius:8px;
+      color:#94a3b8;
+    }
+
+    button{
+      border:none;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      background:#2563eb;
+      color:white;
+    }
+
+    .file-row{
+      background:#020617;
+      border:1px solid #1e293b;
+      padding:10px;
+      border-radius:10px;
+      margin-bottom:8px;
+    }
+
+    .file-top{
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .name{
+      font-size:13px;
+      width:250px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .meta{
+      font-size:11px;
+      color:#64748b;
+    }
+
+    audio{
+      width:100%;
+      margin-top:5px;
+    }
+
+    .actions{
+      display:flex;
+      gap:5px;
+    }
+
+    .actions button{
+      background:#1e293b;
+      font-size:12px;
+    }
+
+    .main-btn{
+      width:100%;
+      margin-top:15px;
+      padding:12px;
+      background:#16a34a;
+      font-weight:600;
+    }
+  </style>
+</head>
+
+<body>
+
+<a href="/home" class="home-btn">🏠 Home</a>
+
+<div class="main-wrapper">
+  <div class="container">
+
+    <h1>🎧 Audio Combiner</h1>
+
+    <div class="drop-zone" id="dropZone">
+      Drag & Drop audio here
+    </div>
+
+    <div class="upload-row">
+      <input type="file" id="fileInput" accept="audio/*" multiple>
+      <button id="addBtn">Add</button>
+    </div>
+
+    <div id="fileList"></div>
+
+    <form action="/audio-combiner/combine" method="post" enctype="multipart/form-data">
+      <input type="file" name="audio" id="hiddenFiles" multiple hidden>
+      <button class="main-btn" type="submit">
+        Combine Multiple Audio Into One
+      </button>
+    </form>
+
+  </div>
+</div>
+
+<a href="/logout" class="logout-btn">Logout</a>
+
+<script>
+
+let filesArray = [];
+
+const fileInput = document.getElementById("fileInput");
+const fileList = document.getElementById("fileList");
+const hiddenFiles = document.getElementById("hiddenFiles");
+const dropZone = document.getElementById("dropZone");
+const addBtn = document.getElementById("addBtn");
+
+/* ADD BUTTON (STABLE) */
+addBtn.onclick = function(){
+  const files = fileInput.files;
+  if(!files.length) return;
+
+  for(let i=0;i<files.length;i++){
+    filesArray.push(files[i]);
+  }
+
+  fileInput.value = "";
+  renderList();
+};
+
+/* DRAG DROP (STABLE) */
+dropZone.addEventListener("dragover",(e)=>{
+  e.preventDefault();
+});
+
+dropZone.addEventListener("drop",(e)=>{
+  e.preventDefault();
+
+  const files = e.dataTransfer.files;
+
+  for(let i=0;i<files.length;i++){
+    filesArray.push(files[i]);
+  }
+
+  renderList();
+});
+
+/* RENDER */
+function renderList(){
+  fileList.innerHTML = "";
+
+  filesArray.forEach((file,index)=>{
+
+    const url = URL.createObjectURL(file);
+
+    const row = document.createElement("div");
+    row.className = "file-row";
+
+    const top = document.createElement("div");
+    top.className = "file-top";
+
+    const name = document.createElement("span");
+    name.className = "name";
+    name.textContent = file.name;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const up = document.createElement("button");
+    up.textContent = "↑";
+    up.onclick = ()=>moveUp(index);
+
+    const down = document.createElement("button");
+    down.textContent = "↓";
+    down.onclick = ()=>moveDown(index);
+
+    const remove = document.createElement("button");
+    remove.textContent = "✕";
+    remove.onclick = ()=>removeFile(index);
+
+    actions.append(up,down,remove);
+    top.append(name,actions);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = (file.size/1024/1024).toFixed(2)+" MB";
+
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.src = url;
+
+    row.append(top,meta,audio);
+    fileList.appendChild(row);
+  });
+
+  updateHiddenFiles();
+}
+
+/* ACTIONS */
+function moveUp(i){
+  if(i===0) return;
+  [filesArray[i-1],filesArray[i]]=[filesArray[i],filesArray[i-1]];
+  renderList();
+}
+
+function moveDown(i){
+  if(i===filesArray.length-1) return;
+  [filesArray[i+1],filesArray[i]]=[filesArray[i],filesArray[i+1]];
+  renderList();
+}
+
+function removeFile(i){
+  filesArray.splice(i,1);
+  renderList();
+}
+
+/* UPDATE */
+function updateHiddenFiles(){
+  const dt = new DataTransfer();
+  filesArray.forEach(f=>dt.items.add(f));
+  hiddenFiles.files = dt.files;
+}
+
+</script>
+
+</body>
+</html>

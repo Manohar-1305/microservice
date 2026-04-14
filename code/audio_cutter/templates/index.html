@@ -36,10 +36,6 @@
         font-size: 14px;
       }
 
-      .home-btn:hover {
-        background: #2563eb;
-      }
-
       .logout-btn {
         position: fixed;
         bottom: 20px;
@@ -50,10 +46,6 @@
         border-radius: 6px;
         text-decoration: none;
         color: white;
-      }
-
-      .logout-btn:hover {
-        background: #dc2626;
       }
 
       h1 {
@@ -76,7 +68,12 @@
       audio {
         margin-top: 12px;
         width: 100%;
-        border-radius: 10px;
+      }
+
+      .file-info {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 8px;
       }
 
       .slider-group {
@@ -94,7 +91,22 @@
       input[type="range"] {
         width: 100%;
         accent-color: #8b5cf6;
-        cursor: pointer;
+      }
+
+      .manual-time {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .manual-time input {
+        flex: 1;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #334155;
+        background: #020617;
+        color: white;
+        font-size: 13px;
       }
 
       button {
@@ -108,12 +120,11 @@
         font-weight: 600;
         font-size: 14px;
         cursor: pointer;
-        transition: 0.25s;
       }
 
-      button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+      .secondary-btn {
+        background: #334155;
+        margin-top: 10px;
       }
 
       .hidden {
@@ -129,6 +140,7 @@
       <h1>🎵 Audio Cutter</h1>
 
       <input type="file" id="audioFile" accept="audio/*" />
+      <div id="fileInfo" class="file-info"></div>
 
       <audio id="player" controls></audio>
 
@@ -149,6 +161,14 @@
           <input type="range" id="endRange" min="0" value="0" />
         </div>
 
+        <!-- Manual input -->
+        <div class="manual-time">
+          <input type="text" id="startManual" placeholder="Start 00:00:00">
+          <input type="text" id="endManual" placeholder="End 00:00:00">
+        </div>
+
+        <button type="button" onclick="previewSegment()">▶ Preview Selection</button>
+
         <form
           action="/audio-cutter/cut"
           method="post"
@@ -159,6 +179,8 @@
           <input type="file" name="audio" id="hiddenFile" class="hidden" />
           <button type="submit">✂️ Cut & Download</button>
         </form>
+
+        <button class="secondary-btn" onclick="resetAll()">Reset</button>
       </div>
     </div>
 
@@ -168,6 +190,7 @@
       const fileInput = document.getElementById("audioFile");
       const player = document.getElementById("player");
       const controls = document.getElementById("controls");
+      const fileInfo = document.getElementById("fileInfo");
 
       const startRange = document.getElementById("startRange");
       const endRange = document.getElementById("endRange");
@@ -180,16 +203,20 @@
 
       const hiddenFile = document.getElementById("hiddenFile");
 
+      const startManual = document.getElementById("startManual");
+      const endManual = document.getElementById("endManual");
+
       fileInput.addEventListener("change", function () {
         const file = this.files[0];
         if (!file) return;
 
         const url = URL.createObjectURL(file);
-
         player.src = url;
-        player.load();   // ensure reload works
+        player.load();
 
         hiddenFile.files = this.files;
+
+        fileInfo.innerText = `${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
 
         player.onloadedmetadata = function () {
           const duration = Math.floor(player.duration);
@@ -213,24 +240,63 @@
         return [h, m, s].map((v) => String(v).padStart(2, "0")).join(":");
       }
 
+      function toSec(t){
+        let p = t.split(":").map(Number);
+        return p[0]*3600 + p[1]*60 + p[2];
+      }
+
       function updateStart() {
         if (parseInt(startRange.value) >= parseInt(endRange.value)) {
           startRange.value = endRange.value - 1;
         }
-        startLabel.innerText = formatTime(startRange.value);
-        startInput.value = formatTime(startRange.value);
+        const val = formatTime(startRange.value);
+        startLabel.innerText = val;
+        startInput.value = val;
+        startManual.value = val;
       }
 
       function updateEnd() {
         if (parseInt(endRange.value) <= parseInt(startRange.value)) {
           endRange.value = parseInt(startRange.value) + 1;
         }
-        endLabel.innerText = formatTime(endRange.value);
-        endInput.value = formatTime(endRange.value);
+        const val = formatTime(endRange.value);
+        endLabel.innerText = val;
+        endInput.value = val;
+        endManual.value = val;
+      }
+
+      function previewSegment(){
+        try{
+          const start = toSec(startManual.value);
+          const end = toSec(endManual.value);
+          if(end <= start) return;
+
+          player.currentTime = start;
+          player.play();
+
+          setTimeout(()=>player.pause(), (end-start)*1000);
+        }catch{}
+      }
+
+      function resetAll(){
+        startRange.value = 0;
+        endRange.value = endRange.max;
+        updateStart();
+        updateEnd();
       }
 
       startRange.addEventListener("input", updateStart);
       endRange.addEventListener("input", updateEnd);
+
+      startManual.addEventListener("change", ()=>{
+        startRange.value = toSec(startManual.value);
+        updateStart();
+      });
+
+      endManual.addEventListener("change", ()=>{
+        endRange.value = toSec(endManual.value);
+        updateEnd();
+      });
     </script>
   </body>
 </html>

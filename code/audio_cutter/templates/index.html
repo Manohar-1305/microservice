@@ -23,7 +23,7 @@
         box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
-    /* Home top right */
+
       .home-btn {
         position: absolute;
         top: 15px;
@@ -40,7 +40,6 @@
         background: #2563eb;
       }
 
-      /* Logout bottom center */
       .logout-btn {
         position: fixed;
         bottom: 20px;
@@ -56,7 +55,7 @@
       .logout-btn:hover {
         background: #dc2626;
       }
-      
+
       h1 {
         text-align: center;
         margin-bottom: 20px;
@@ -125,6 +124,7 @@
 
   <body>
     <a href="/home" class="home-btn">🏠 Home</a>
+
     <div class="container">
       <h1>🎵 Audio Cutter</h1>
 
@@ -161,7 +161,9 @@
         </form>
       </div>
     </div>
-        <a href="/logout" class="logout-btn">Logout</a>
+
+    <a href="/logout" class="logout-btn">Logout</a>
+
     <script>
       const fileInput = document.getElementById("audioFile");
       const player = document.getElementById("player");
@@ -185,6 +187,8 @@
         const url = URL.createObjectURL(file);
 
         player.src = url;
+        player.load();   // ensure reload works
+
         hiddenFile.files = this.files;
 
         player.onloadedmetadata = function () {

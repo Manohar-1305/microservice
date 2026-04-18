@@ -8,30 +8,32 @@
         margin: 0;
         background: #f1f5f9;
         text-align: center;
+        font-size: 18px; /* base increase */
       }
 
       header {
-        padding: 30px;
+        padding: 40px;
         background: #e2e8f0;
         position: relative;
       }
 
       h1 {
-        font-size: 48px;
+        font-size: 64px; /* bigger title */
         margin: 0;
       }
 
       /* HOME BUTTON (TOP RIGHT) */
       .home-btn {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 25px;
+        right: 25px;
         background: #22c55e;
-        padding: 10px 16px;
+        padding: 14px 20px;
         border: none;
         color: white;
         cursor: pointer;
-        border-radius: 6px;
+        border-radius: 8px;
+        font-size: 16px;
       }
 
       .home-btn:hover {
@@ -39,66 +41,62 @@
       }
 
       input {
-        padding: 12px;
-        width: 300px;
-        margin-top: 20px;
+        padding: 16px;
+        width: 380px;
+        margin-top: 30px;
+        font-size: 18px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
       }
 
       button {
-        padding: 12px 20px;
+        padding: 16px 24px;
         background: #2563eb;
         color: white;
         border: none;
         cursor: pointer;
+        font-size: 18px;
+        border-radius: 6px;
       }
 
       /* IP BOX */
       .ip-box {
-        margin-top: 30px;
-        font-size: 28px;
+        margin-top: 50px;
+        font-size: 36px;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 14px;
       }
 
       .octet {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 10px;
+        border-radius: 12px;
         font-weight: bold;
+        font-size: 28px;
       }
 
-      .o1 {
-        background: #a855f7;
-      }
-      .o2 {
-        background: #ef4444;
-      }
-      .o3 {
-        background: #22c55e;
-      }
-      .o4 {
-        background: #eab308;
-      }
-      .prefix {
-        background: #94a3b8;
-      }
+      .o1 { background: #a855f7; }
+      .o2 { background: #ef4444; }
+      .o3 { background: #22c55e; }
+      .o4 { background: #eab308; }
+      .prefix { background: #94a3b8; }
 
       .slash {
-        font-size: 32px;
-        margin-top: 8px;
+        font-size: 40px;
+        margin-top: 10px;
       }
 
       /* BINARY */
       .binary {
-        margin-top: 30px;
+        margin-top: 40px;
         display: flex;
         justify-content: center;
-        gap: 12px;
+        gap: 16px;
       }
 
       .bin-block {
@@ -106,68 +104,59 @@
       }
 
       .bit {
-        padding: 8px;
+        padding: 10px;
         border: 1px solid #333;
-        font-size: 14px;
-        min-width: 16px;
+        font-size: 16px;
+        min-width: 20px;
       }
 
-      .o1.network {
-        background: #a855f7;
-      }
-      .o2.network {
-        background: #ef4444;
-      }
-      .o3.network {
-        background: #22c55e;
-      }
-      .o4.network {
-        background: #eab308;
-      }
+      .o1.network { background: #a855f7; }
+      .o2.network { background: #ef4444; }
+      .o3.network { background: #22c55e; }
+      .o4.network { background: #eab308; }
 
-      .o1.host {
-        background: #e9d5ff;
-      }
-      .o2.host {
-        background: #fecaca;
-      }
-      .o3.host {
-        background: #bbf7d0;
-      }
-      .o4.host {
-        background: #fef08a;
-      }
+      .o1.host { background: #e9d5ff; }
+      .o2.host { background: #fecaca; }
+      .o3.host { background: #bbf7d0; }
+      .o4.host { background: #fef08a; }
 
       /* RESULTS */
       .results {
         display: flex;
         justify-content: space-around;
-        margin-top: 40px;
+        margin-top: 50px;
         flex-wrap: wrap;
       }
 
       .card {
-        margin: 10px;
+        margin: 15px;
+        font-size: 20px;
       }
 
       .label {
         color: #64748b;
+        font-size: 16px;
+        margin-top: 6px;
       }
 
       .error {
         color: red;
+        font-size: 18px;
+        margin-top: 20px;
       }
 
-      /* LOGOUT BUTTON (BOTTOM CENTER) */
+      /* LOGOUT BUTTON */
       .logout-container {
         position: fixed;
-        bottom: 20px;
+        bottom: 25px;
         left: 50%;
         transform: translateX(-50%);
       }
 
       .logout-btn {
         background: #ef4444;
+        font-size: 16px;
+        padding: 14px 22px;
       }
 
       .logout-btn:hover {
@@ -179,7 +168,6 @@
     <header>
       <h1>CIDR Calculator</h1>
 
-      <!-- HOME BUTTON -->
       <form action="/home" method="GET">
         <button class="home-btn">Home</button>
       </form>
@@ -192,15 +180,14 @@
 
     {% if error %}
     <div class="error">{{ error }}</div>
-    {% endif %} {% if data %}
+    {% endif %}
+
+    {% if data %}
 
     <div class="ip-box">
-      <div class="octet o1">{{ data.octets_ip[0] }}</div>
-      .
-      <div class="octet o2">{{ data.octets_ip[1] }}</div>
-      .
-      <div class="octet o3">{{ data.octets_ip[2] }}</div>
-      .
+      <div class="octet o1">{{ data.octets_ip[0] }}</div>.
+      <div class="octet o2">{{ data.octets_ip[1] }}</div>.
+      <div class="octet o3">{{ data.octets_ip[2] }}</div>.
       <div class="octet o4">{{ data.octets_ip[3] }}</div>
 
       <div class="slash">/</div>
@@ -218,39 +205,17 @@
     </div>
 
     <div class="results">
-      <div class="card">
-        <div>{{ data.netmask }}</div>
-        <div class="label">Netmask</div>
-      </div>
-      <div class="card">
-        <div>{{ data.network }}</div>
-        <div class="label">Network</div>
-      </div>
-      <div class="card">
-        <div>{{ data.broadcast }}</div>
-        <div class="label">Broadcast</div>
-      </div>
-      <div class="card">
-        <div>{{ data.first_ip }}</div>
-        <div class="label">First</div>
-      </div>
-      <div class="card">
-        <div>{{ data.last_ip }}</div>
-        <div class="label">Last</div>
-      </div>
-      <div class="card">
-        <div>{{ data.gateway }}</div>
-        <div class="label">Gateway</div>
-      </div>
-      <div class="card">
-        <div>{{ data.total_ips }}</div>
-        <div class="label">IPs</div>
-      </div>
+      <div class="card"><div>{{ data.netmask }}</div><div class="label">Netmask</div></div>
+      <div class="card"><div>{{ data.network }}</div><div class="label">Network</div></div>
+      <div class="card"><div>{{ data.broadcast }}</div><div class="label">Broadcast</div></div>
+      <div class="card"><div>{{ data.first_ip }}</div><div class="label">First</div></div>
+      <div class="card"><div>{{ data.last_ip }}</div><div class="label">Last</div></div>
+      <div class="card"><div>{{ data.gateway }}</div><div class="label">Gateway</div></div>
+      <div class="card"><div>{{ data.total_ips }}</div><div class="label">IPs</div></div>
     </div>
 
     {% endif %}
 
-    <!-- LOGOUT BUTTON -->
     <div class="logout-container">
       <form action="/logout" method="GET">
         <button class="logout-btn">Logout</button>

@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CIDR Calculator</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 0;
+        background: #f1f5f9;
+        text-align: center;
+      }
+
+      header {
+        padding: 30px;
+        background: #e2e8f0;
+        position: relative;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin: 0;
+      }
+
+      /* HOME BUTTON (TOP RIGHT) */
+      .home-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #22c55e;
+        padding: 10px 16px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 6px;
+      }
+
+      .home-btn:hover {
+        background: #16a34a;
+      }
+
+      input {
+        padding: 12px;
+        width: 300px;
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 12px 20px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* IP BOX */
+      .ip-box {
+        margin-top: 30px;
+        font-size: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .octet {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        font-weight: bold;
+      }
+
+      .o1 {
+        background: #a855f7;
+      }
+      .o2 {
+        background: #ef4444;
+      }
+      .o3 {
+        background: #22c55e;
+      }
+      .o4 {
+        background: #eab308;
+      }
+      .prefix {
+        background: #94a3b8;
+      }
+
+      .slash {
+        font-size: 32px;
+        margin-top: 8px;
+      }
+
+      /* BINARY */
+      .binary {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .bin-block {
+        display: flex;
+      }
+
+      .bit {
+        padding: 8px;
+        border: 1px solid #333;
+        font-size: 14px;
+        min-width: 16px;
+      }
+
+      .o1.network {
+        background: #a855f7;
+      }
+      .o2.network {
+        background: #ef4444;
+      }
+      .o3.network {
+        background: #22c55e;
+      }
+      .o4.network {
+        background: #eab308;
+      }
+
+      .o1.host {
+        background: #e9d5ff;
+      }
+      .o2.host {
+        background: #fecaca;
+      }
+      .o3.host {
+        background: #bbf7d0;
+      }
+      .o4.host {
+        background: #fef08a;
+      }
+
+      /* RESULTS */
+      .results {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        margin: 10px;
+      }
+
+      .label {
+        color: #64748b;
+      }
+
+      .error {
+        color: red;
+      }
+
+      /* LOGOUT BUTTON (BOTTOM CENTER) */
+      .logout-container {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .logout-btn {
+        background: #ef4444;
+      }
+
+      .logout-btn:hover {
+        background: #dc2626;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>CIDR Calculator</h1>
+
+      <!-- HOME BUTTON -->
+      <form action="/home" method="GET">
+        <button class="home-btn">Home</button>
+      </form>
+    </header>
+
+    <form method="POST">
+      <input type="text" name="cidr" placeholder="172.168.0.0/25" required />
+      <button>Calculate</button>
+    </form>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %} {% if data %}
+
+    <div class="ip-box">
+      <div class="octet o1">{{ data.octets_ip[0] }}</div>
+      .
+      <div class="octet o2">{{ data.octets_ip[1] }}</div>
+      .
+      <div class="octet o3">{{ data.octets_ip[2] }}</div>
+      .
+      <div class="octet o4">{{ data.octets_ip[3] }}</div>
+
+      <div class="slash">/</div>
+      <div class="octet prefix">{{ data.prefix }}</div>
+    </div>
+
+    <div class="binary">
+      {% for octet in data.bit_octets %}
+      <div class="bin-block">
+        {% for b in octet %}
+        <div class="bit {{ b.octet_class }} {{ b.type }}">{{ b.bit }}</div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="results">
+      <div class="card">
+        <div>{{ data.netmask }}</div>
+        <div class="label">Netmask</div>
+      </div>
+      <div class="card">
+        <div>{{ data.network }}</div>
+        <div class="label">Network</div>
+      </div>
+      <div class="card">
+        <div>{{ data.broadcast }}</div>
+        <div class="label">Broadcast</div>
+      </div>
+      <div class="card">
+        <div>{{ data.first_ip }}</div>
+        <div class="label">First</div>
+      </div>
+      <div class="card">
+        <div>{{ data.last_ip }}</div>
+        <div class="label">Last</div>
+      </div>
+      <div class="card">
+        <div>{{ data.gateway }}</div>
+        <div class="label">Gateway</div>
+      </div>
+      <div class="card">
+        <div>{{ data.total_ips }}</div>
+        <div class="label">IPs</div>
+      </div>
+    </div>
+
+    {% endif %}
+
+    <!-- LOGOUT BUTTON -->
+    <div class="logout-container">
+      <form action="/logout" method="GET">
+        <button class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </body>
+</html>

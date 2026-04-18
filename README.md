@@ -110,17 +110,9 @@ docker rm -f audio-cutter-service; docker build -t audio-cutter-service .; docke
 
 docker rm -f audio-cutter-service; docker build --no-cache -t audio-cutter-service . && docker tag audio-cutter-service manoharshetty507/audio-cutter-service:latest && docker push manoharshetty507/audio-cutter-service:latest && docker run -d --name audio-cutter-service --network micro-net -p 50010:50010 manoharshetty507/audio-cutter-service:latest
 
-cidr
+CIDR
 =======
-
-docker build --no-cache -t cidr-service . && \
-docker stop cidr-service 2>/dev/null; \
-docker rm cidr-service 2>/dev/null; \
-docker run -d --name cidr-service \
---network micro-net \
---env-file .env \
--p 5012:5012 \
-cidr-service
+docker build --no-cache -t cidr-service . && docker stop cidr-service 2>/dev/null; docker rm cidr-service 2>/dev/null; docker run -d --name cidr-service --network micro-net -p 5012:5012 cidr-service
 
 -------------------------
 Upload the image locally

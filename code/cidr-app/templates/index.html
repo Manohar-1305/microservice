@@ -2,60 +2,67 @@
 <html>
   <head>
     <title>CIDR Calculator</title>
+
     <style>
       body {
-        font-family: Arial;
+        font-family: "Inter", Arial;
         margin: 0;
-        background: #f1f5f9;
+        background: radial-gradient(circle at top, #0f172a, #020617);
+        color: #e2e8f0;
         text-align: center;
-        font-size: 16px;
       }
 
       header {
-        padding: 28px;
-        background: #e2e8f0;
+        padding: 30px;
+        background: linear-gradient(90deg, #020617, #1e293b);
+        border-bottom: 1px solid #334155;
         position: relative;
       }
 
       h1 {
-        font-size: 52px;
+        font-size: 48px;
         margin: 0;
+        background: linear-gradient(90deg, #38bdf8, #6366f1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .home-btn {
         position: absolute;
         top: 18px;
         right: 18px;
-        background: #22c55e;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
         padding: 10px 16px;
         border: none;
         color: white;
         cursor: pointer;
-        border-radius: 6px;
-        font-size: 14px;
+        border-radius: 8px;
+      }
+
+      form {
+        margin-top: 25px;
       }
 
       input {
-        padding: 12px;
+        padding: 14px;
         width: 320px;
-        margin-top: 24px;
-        font-size: 16px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
+        border-radius: 10px;
+        border: none;
+        background: #020617;
+        color: white;
       }
 
       button {
-        padding: 12px 18px;
-        background: #2563eb;
+        padding: 14px 22px;
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
         color: white;
         border: none;
+        border-radius: 10px;
         cursor: pointer;
-        font-size: 16px;
-        border-radius: 6px;
       }
 
       .ip-box {
-        margin-top: 36px;
+        margin-top: 40px;
         font-size: 30px;
         display: flex;
         justify-content: center;
@@ -64,77 +71,64 @@
       }
 
       .octet {
-        width: 65px;
-        height: 65px;
+        width: 70px;
+        height: 70px;
+        border-radius: 12px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 10px;
         font-weight: bold;
-        font-size: 22px;
       }
 
       .o1 { background: #a855f7; }
       .o2 { background: #ef4444; }
       .o3 { background: #22c55e; }
       .o4 { background: #eab308; }
-      .prefix { background: #94a3b8; }
-
-      .slash {
-        font-size: 32px;
-        margin-top: 6px;
-      }
+      .prefix { background: #64748b; }
 
       .binary {
-        margin-top: 28px;
+        margin-top: 25px;
         display: flex;
         justify-content: center;
-        gap: 10px;
-      }
-
-      .bin-block {
-        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
       }
 
       .bit {
-        padding: 8px;
-        border: 1px solid #333;
+        padding: 6px;
+        border: 1px solid #334155;
         font-size: 14px;
-        min-width: 16px;
+        min-width: 18px;
       }
 
-      .o1.network { background: #a855f7; }
-      .o2.network { background: #ef4444; }
-      .o3.network { background: #22c55e; }
-      .o4.network { background: #eab308; }
+      .o1.network { background: #9333ea; }
+      .o2.network { background: #dc2626; }
+      .o3.network { background: #16a34a; }
+      .o4.network { background: #ca8a04; }
 
-      .o1.host { background: #e9d5ff; }
-      .o2.host { background: #fecaca; }
-      .o3.host { background: #bbf7d0; }
-      .o4.host { background: #fef08a; }
+      .o1.host { background: #e9d5ff; color: black; }
+      .o2.host { background: #fecaca; color: black; }
+      .o3.host { background: #bbf7d0; color: black; }
+      .o4.host { background: #fef08a; color: black; }
 
       .results {
         display: flex;
-        justify-content: space-around;
-        margin-top: 36px;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
         flex-wrap: wrap;
       }
 
       .card {
-        margin: 10px;
-        font-size: 18px;
+        background: #020617;
+        border: 1px solid #1e293b;
+        border-radius: 12px;
+        padding: 10px 15px;
       }
 
       .label {
-        color: #64748b;
-        font-size: 14px;
-        margin-top: 4px;
-      }
-
-      .error {
-        color: red;
-        font-size: 16px;
-        margin-top: 16px;
+        color: #94a3b8;
+        font-size: 12px;
       }
 
       .faq {
@@ -143,23 +137,26 @@
         text-align: left;
       }
 
+      .faq h2 {
+        margin-bottom: 15px;
+      }
+
       .faq details {
-        background: white;
+        background: #020617;
+        padding: 14px;
+        border-radius: 10px;
         margin-bottom: 10px;
-        padding: 12px;
-        border-radius: 6px;
-        cursor: pointer;
+        border: 1px solid #1e293b;
       }
 
       .faq summary {
         font-weight: bold;
-        font-size: 16px;
+        cursor: pointer;
       }
 
       .faq p {
         margin-top: 8px;
-        font-size: 14px;
-        color: #334155;
+        color: #94a3b8;
       }
 
       .logout-container {
@@ -167,32 +164,34 @@
         bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 1000;
       }
 
       .logout-btn {
         background: #ef4444;
-        font-size: 14px;
-        padding: 10px 16px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        color: white;
       }
     </style>
   </head>
+
   <body>
 
     <header>
       <h1>CIDR Calculator</h1>
-      <form action="/home" method="GET">
+      <form action="/home">
         <button class="home-btn">Home</button>
       </form>
     </header>
 
     <form method="POST" action="/cidr/calculate">
-      <input type="text" name="cidr" placeholder="172.168.0.0/25" required />
+      <input type="text" name="cidr" placeholder="192.168.1.0/24" required />
       <button type="submit">Calculate</button>
     </form>
 
     {% if error %}
-    <div class="error">{{ error }}</div>
+      <div class="error">{{ error }}</div>
     {% endif %}
 
     {% if data %}
@@ -201,17 +200,15 @@
       <div class="octet o2">{{ data.octets_ip[1] }}</div>.
       <div class="octet o3">{{ data.octets_ip[2] }}</div>.
       <div class="octet o4">{{ data.octets_ip[3] }}</div>
-      <div class="slash">/</div>
+      /
       <div class="octet prefix">{{ data.prefix }}</div>
     </div>
 
     <div class="binary">
       {% for octet in data.bit_octets %}
-      <div class="bin-block">
         {% for b in octet %}
-        <div class="bit {{ b.octet_class }} {{ b.type }}">{{ b.bit }}</div>
+          <div class="bit {{ b.octet_class }} {{ b.type }}">{{ b.bit }}</div>
         {% endfor %}
-      </div>
       {% endfor %}
     </div>
 
@@ -257,7 +254,7 @@
     </div>
 
     <div class="logout-container">
-      <form action="/logout" method="GET">
+      <form action="/logout">
         <button class="logout-btn">Logout</button>
       </form>
     </div>

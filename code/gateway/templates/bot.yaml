@@ -1,0 +1,72 @@
+<!-- templates/bot.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro Bot</title>
+<style>
+body{background:#0f172a;font-family:Arial}
+#botIcon{display:none}
+#chatBox{
+position:fixed;
+bottom:20px;
+right:20px;
+width:320px;
+height:420px;
+background:#020617;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+box-shadow:0 0 15px #000;
+}
+#header{background:#22c55e;padding:10px;border-radius:12px 12px 0 0;color:white;font-weight:bold}
+#messages{flex:1;padding:10px;overflow-y:auto;color:#e2e8f0}
+.msg{margin:6px 0}
+.user{text-align:right;color:#22c55e}
+.bot{text-align:left;color:#38bdf8}
+#inputBox{display:flex}
+#inputBox input{flex:1;padding:10px;border:none;outline:none;background:#0f172a;color:white}
+#inputBox button{background:#22c55e;border:none;padding:10px;color:white;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div id="chatBox">
+<div id="header">Micro Bot</div>
+<div id="messages"></div>
+<div id="inputBox">
+<input id="i" placeholder="Ask about microservices..." />
+<button onclick="send()">➤</button>
+</div>
+</div>
+
+<script>
+let ws = new WebSocket("ws://" + location.host + "/ws"); // direct
+
+let msgs = document.getElementById("messages");
+
+window.onload = () => {
+        add("bot","Hi 👋 How may I help you?");
+};
+
+ws.onmessage = e => add("bot", e.data);
+
+function send(){
+        let v = i.value;
+        if(!v) return;
+        add("user", v);
+        ws.send(v);
+        i.value="";
+}
+
+function add(type,text){
+        let d=document.createElement("div");
+        d.className="msg "+type;
+        d.innerText=text;
+        msgs.appendChild(d);
+        msgs.scrollTop=msgs.scrollHeight;
+}
+</script>
+
+</body>
+</html>

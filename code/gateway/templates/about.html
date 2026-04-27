@@ -1,0 +1,139 @@
+<!-- templates/about.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Platform</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0f172a;
+    color:#e2e8f0;
+}
+
+/* NAV */
+#nav{
+    position:fixed;
+    top:15px;
+    left:15px;
+}
+#nav a{
+    background:#1e293b;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    margin-right:10px;
+}
+
+/* HOME */
+#home{
+    position:fixed;
+    top:15px;
+    right:20px;
+    background:#22c55e;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* CONTENT */
+#container{
+    max-width:1000px;
+    margin:120px auto;
+    padding:20px;
+}
+
+h1{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+h2{
+    color:#22c55e;
+    margin-top:30px;
+}
+
+p{
+    line-height:1.7;
+    font-size:18px;
+}
+
+/* CARDS */
+.card{
+    background:#020617;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px #000;
+}
+</style>
+</head>
+
+<body>
+
+<div id="nav">
+    <a href="/about">About</a>
+</div>
+
+<a href="/home" id="home">Home</a>
+
+<div id="container">
+
+    <h1>Free Microservices Platform</h1>
+    <p>
+        This platform provides a collection of practical, real-world tools built using a microservices architecture.
+        Each tool runs independently while being accessible through a unified gateway.
+    </p>
+
+    <div class="card">
+        <h2>What You Can Do</h2>
+        <p>
+            Convert text to audio, combine multiple audio files, trim audio, convert PDF to Word,
+            convert Word to PDF, and calculate CIDR ranges — all in one place.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Why This Platform Exists</h2>
+        <p>
+            Instead of building isolated utilities, this platform demonstrates how independent services
+            can work together in a scalable system. It’s designed for real usage, not just demos.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>How It Works</h2>
+        <p>
+            Each tool is a separate service connected through a gateway. Requests are routed dynamically,
+            allowing flexibility, scalability, and easier debugging.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Use It Freely</h2>
+        <p>
+            This is a free environment. Try different tools, test workflows, and explore how the system behaves.
+            Break things if needed — that’s how you understand real systems.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Support</h2>
+        <p>
+            If something doesn’t work, use the support helpdesk available on the main page.
+            For further help:
+        </p>
+        <p>Email: manohartshetty507@gmail.com</p>
+        <p>Phone: 9898989898</p>
+    </div>
+
+</div>
+
+</body>
+</html>

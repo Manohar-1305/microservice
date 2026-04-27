@@ -2,6 +2,8 @@ docker network create micro-net
 
 docker inspect gateway-service | grep micro-net
 
+docker build --no-cache -t micro-bot . && docker stop micro-bot 2>/dev/null; docker rm micro-bot 2>/dev/null; docker run -d --name micro-bot --network micro-net -p 5013:5013 micro-bot
+
 gateway
 ----------
 docker rm -f gateway-service && docker build --no-cache -t gateway-service . && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service

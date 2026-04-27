@@ -69,6 +69,22 @@ def register():
 
     return "User already exists"
 
+#----------- Bot -------------
+@app.route('/bot')
+def bot():
+    return render_template("bot.html")
+
+
+@app.route('/bot/ws')
+def bot_ws_proxy():
+    def proxy():
+        with requests.get(f"{BOT_SERVICE}/ws", stream=True) as r:
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    yield chunk
+    return Response(proxy(), content_type="application/octet-stream")
+
+
 # -------- CIDR TOOL --------
 @app.route('/cidr')
 def cidr_page():

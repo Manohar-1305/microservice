@@ -18,6 +18,21 @@ AUDIO_CUTTER_SERVICE = config.AUDIO_CUTTER_SERVICE
 CIDR_SERVICE = config.CIDR_SERVICE
 METRICS_SERVICE = config.METRICS_SERVICE
 
+@app.before_request
+def track_all_requests():
+    path = request.path
+
+    if path.startswith("/static") or path.startswith("/api"):
+        return
+
+    try:
+        requests.get(
+            f"{METRICS_SERVICE}/api/hit",
+            params={"service": path},
+            timeout=0.2
+        )
+    except:
+        pass
 # -------- ROOT --------
 @app.route('/')
 def root():

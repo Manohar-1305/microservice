@@ -114,6 +114,12 @@ CIDR
 =======
 docker build --no-cache -t cidr-service . && docker stop cidr-service 2>/dev/null; docker rm cidr-service 2>/dev/null; docker run -d --name cidr-service --network micro-net -p 5012:5012 cidr-service
 
+
+CIDR
+=======
+
+ docker build --no-cache -t cidr-service . && docker stop cidr-service 2>/dev/null; docker rm cidr-service 2>/dev/null; docker run -d --name cidr-service --network micro-net -p 5008:5008 cidr-service
+ 
 -------------------------
 Upload the image locally
 ==========================

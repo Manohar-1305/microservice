@@ -1,170 +1,163 @@
-/* static/styles.css */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-body {
-  font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #0f172a, #020617);
-  color: white;
+body{
+  font-family:'Inter', sans-serif;
+  background: linear-gradient(135deg,#0f172a,#1e293b);
+  color:#e2e8f0;
 }
 
-/* banner */
-.banner {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: linear-gradient(90deg, #ff6a00, #ee0979);
-  overflow: hidden;
-  z-index: 1000;
+/* BANNER */
+.banner{
+  width:100%;
+  background:#020617;
+  border-bottom:1px solid #1e293b;
+  padding:14px 0; /* slightly taller */
+  overflow:hidden;
+  white-space:nowrap;
 }
 
-.banner-text {
-  white-space: nowrap;
-  animation: scroll 15s linear infinite;
-  padding: 10px;
-  font-weight: 500;
+/* TEXT */
+.banner-text{
+  display:inline-block;
+  padding-left:100%;
+
+  font-size:18px;              /* bigger font */
+  font-weight:600;             /* stronger visibility */
+  letter-spacing:1px;
+  color:#22c55e;
+
+  animation:scrollLeft 12s linear infinite,
+             blinkText 1s infinite;
 }
 
-@keyframes scroll {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+/* RIGHT → LEFT */
+@keyframes scrollLeft{
+  0% { transform:translateX(0); }
+  100% { transform:translateX(-100%); }
 }
 
-/* layout */
-.container {
-  max-width: 1100px;
-  margin: 90px auto 40px;
-  padding: 20px;
+/* BLINK */
+@keyframes blinkText {
+  0% {opacity:1;}
+  50% {opacity:0.5;}
+  100% {opacity:1;}
+}
+/* ================= CONTAINER ================= */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:30px 20px;
+  text-align:center;
 }
 
-h1 {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, #60a5fa, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+h1{
+  font-size:36px;
+  margin-bottom:8px;
+  color:white;
 }
 
-.subtitle-top {
-  text-align: center;
-  color: #94a3b8;
-  margin-bottom: 30px;
+.subtitle-top{
+  color:#94a3b8;
+  margin-bottom:30px;
 }
 
-/* grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+/* ================= GRID ================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
 }
 
-/* base card */
-.service {
-  padding: 22px;
-  border-radius: 16px;
-  text-decoration: none;
-  color: white;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+/* ================= SERVICE CARD ================= */
+.service{
+  padding:22px;
+  border-radius:16px;
+  text-decoration:none;
+  color:white;
+  transition:all 0.25s ease;
+  box-shadow:0 10px 20px rgba(0,0,0,0.4);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
-.service:hover {
-  transform: translateY(-6px) scale(1.04);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+.service:hover{
+  transform:translateY(-6px) scale(1.05);
+  box-shadow:0 20px 35px rgba(0,0,0,0.7);
 }
 
-/* 🔥 UNIQUE GRADIENTS PER SERVICE */
-
-.service.audio {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+.icon{
+  font-size:32px;
+  margin-bottom:10px;
 }
 
-.service.music {
-  background: linear-gradient(135deg, #43cea2, #185a9d);
+.title{
+  font-weight:600;
+  font-size:16px;
+  margin-bottom:4px;
 }
 
-.service.pdf {
-  background: linear-gradient(135deg, #f7971e, #ffd200);
+.subtitle{
+  font-size:12px;
+  opacity:0.8;
 }
 
-.service.word {
-  background: linear-gradient(135deg, #c471f5, #fa71cd);
+/* ================= COLORS ================= */
+
+.audio{background:linear-gradient(135deg,#2563eb,#1d4ed8);}
+.music{background:linear-gradient(135deg,#059669,#047857);}
+.pdf{background:linear-gradient(135deg,#dc2626,#991b1b);}
+.word{background:linear-gradient(135deg,#0284c7,#0369a1);}
+.youtube{background:linear-gradient(135deg,#ea580c,#c2410c);}
+.shortener{background:linear-gradient(135deg,#7c3aed,#5b21b6);}
+.todo{background:linear-gradient(135deg,#16a34a,#15803d);}
+.combiner{background:linear-gradient(135deg,#0ea5e9,#0284c7);}
+.cutter{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.cidr{background:linear-gradient(135deg,#14b8a6,#0f766e);}
+
+/* ================= BOTTOM ================= */
+.bottom-section{
+  margin-top:40px;
 }
 
-.service.youtube {
-  background: linear-gradient(135deg, #ff512f, #dd2476);
+.logout-btn{
+  display:inline-block;
+  margin-bottom:15px;
+  padding:10px 20px;
+  background:#dc2626;
+  color:white;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:500;
+  transition:0.2s;
 }
 
-.service.shortener {
-  background: linear-gradient(135deg, #24c6dc, #514a9d);
+.logout-btn:hover{
+  background:#b91c1c;
 }
 
-.service.todo {
-  background: linear-gradient(135deg, #11998e, #38ef7d);
+/* FOOTER */
+.footer{
+  font-size:13px;
+  color:#94a3b8;
+  margin-top:10px;
 }
 
-.service.combiner {
-  background: linear-gradient(135deg, #fc466b, #3f5efb);
+.copyright{
+  font-size:12px;
+  margin-top:5px;
+  color:#64748b;
 }
 
-.service.cutter {
-  background: linear-gradient(135deg, #ff9966, #ff5e62);
-}
-
-.service.cidr {
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
-}
-
-/* content */
-.icon {
-  font-size: 30px;
-}
-
-.title {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.subtitle {
-  font-size: 13px;
-  opacity: 0.85;
-}
-
-/* bottom */
-.bottom-section {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.logout-btn {
-  padding: 10px 20px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  color: white;
-  text-decoration: none;
-  transition: 0.2s;
-}
-
-.logout-btn:hover {
-  transform: scale(1.05);
-}
-
-.footer {
-  margin-top: 20px;
-  font-size: 13px;
-  color: #60a5fa;
-}
-
-.copyright {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 5px;
+/* ================= SUPPORT BUTTON ================= */
+.support-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
 }

@@ -11,5 +11,5 @@ CIDR_SERVICE = os.getenv("CIDR_SERVICE_URL", "http://cidr-service:5008")
 TODO_SERVICE = os.getenv("TODO_SERVICE_URL","http://todo:50009")
 AUDIO_CUTTER_SERVICE = os.getenv("AUDIO_CUTTER_SERVICE_URL","http://audio-cutter-service:50010")
 AUDIO_COMBINER_SERVICE = os.getenv("AUDIO_COMBINER_SERVICE_URL","http://audio-combiner-service:5011")
-BOT_SERVICE = os.getenv("BOT_SERVICE_URL", "http://micro-bot:5012")
+
 

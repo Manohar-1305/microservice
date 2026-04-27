@@ -7,6 +7,20 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+  <style>
+  @keyframes blinkBtn {
+    0% {opacity:1;}
+    50% {opacity:0.4;}
+    100% {opacity:1;}
+  }
+
+  @keyframes blinkText {
+    0% {opacity:1;}
+    50% {opacity:0.5;}
+    100% {opacity:1;}
+  }
+  </style>
 </head>
 
 <body>
@@ -97,6 +111,45 @@
       </div>
     </div>
   </div>
+
+<!-- UPDATED SUPPORT BUTTON -->
+<div style="
+position:fixed;
+bottom:20px;
+right:20px;
+display:flex;
+flex-direction:column;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+color:#22c55e;
+font-weight:bold;
+margin-bottom:6px;
+animation:blinkText 1s infinite;
+">
+Support
+</div>
+
+<a href="/bot" style="
+background:#22c55e;
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:28px;
+text-decoration:none;
+box-shadow:0 0 10px #000;
+animation:blinkBtn 1s infinite;
+">
+💬
+</a>
+
+</div>
 
 </body>
 </html>

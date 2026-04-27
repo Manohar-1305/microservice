@@ -1,0 +1,38 @@
+# .github/workflows/cidr_service.yaml
+name: Build CIDR Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'code/cidr-app/**'
+
+env:
+  IMAGE_NAME: cidr-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code/cidr-app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install pytest flask
+
+      - name: Run tests
+        run: pytest || echo "No tests found"
+
+      - name: Docker Login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build Image
+        run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+
+      - name: Push Image
+        run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

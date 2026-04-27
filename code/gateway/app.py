@@ -22,7 +22,8 @@ METRICS_SERVICE = config.METRICS_SERVICE
 def track_all_requests():
     path = request.path
 
-    if path.startswith("/static") or path.startswith("/api"):
+    # skip static + metrics UI + stats API
+    if path.startswith("/static") or path.startswith("/metrics") or path == "/api/stats":
         return
 
     try:
@@ -33,6 +34,11 @@ def track_all_requests():
         )
     except:
         pass
+
+@app.route('/api/stats')
+def metrics_stats():
+    r = requests.get(f"{METRICS_SERVICE}/api/stats")
+    return Response(r.content, r.status_code, content_type="application/json")
 # -------- ROOT --------
 @app.route('/')
 def root():
@@ -102,6 +108,11 @@ def bot_ws_proxy():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/metrics')
+def metrics_ui():
+    r = requests.get(f"{METRICS_SERVICE}/")
+    return Response(r.content, r.status_code)
 
 # -------- CIDR TOOL --------
 @app.route('/cidr')
@@ -456,4 +467,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
-

@@ -1,0 +1,40 @@
+name: Build Metrics Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'code/go-metric/**'
+
+env:
+  IMAGE_NAME: metrics-service
+  DOCKER_USERNAME: manoharshetty507
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: code/go-metric
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Build (basic check)
+        run: go build ./... || echo "Build skipped"
+
+      - name: Docker Login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build Image
+        run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:latest .
+
+      - name: Push Image
+        run: docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

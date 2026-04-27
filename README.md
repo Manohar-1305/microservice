@@ -117,6 +117,11 @@ CIDR
 =======
 
  docker build --no-cache -t cidr-service . && docker stop cidr-service 2>/dev/null; docker rm cidr-service 2>/dev/null; docker run -d --name cidr-service --network micro-net -p 5008:5008 cidr-service
+
+ Metric Anaylser
+ ===================
+
+ docker build --no-cache -t metrics-service . && docker stop metrics-service 2>/dev/null; docker rm metrics-service 2>/dev/null; docker run -d --name metrics-service --network micro-net -p 5012:5012 metrics-service
  
 -------------------------
 Upload the image locally

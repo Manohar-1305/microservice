@@ -69,7 +69,6 @@ def register():
 
     return "User already exists"
 
-#----------- Bot -------------
 @app.route('/bot')
 def bot():
     return render_template("bot.html")
@@ -84,6 +83,9 @@ def bot_ws_proxy():
                     yield chunk
     return Response(proxy(), content_type="application/octet-stream")
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 # -------- CIDR TOOL --------
 @app.route('/cidr')
@@ -438,3 +440,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
+

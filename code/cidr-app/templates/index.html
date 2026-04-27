@@ -8,7 +8,7 @@
         margin: 0;
         background: #f1f5f9;
         text-align: center;
-        font-size: 16px; /* slightly smaller */
+        font-size: 16px;
       }
 
       header {
@@ -137,9 +137,8 @@
         margin-top: 16px;
       }
 
-      /* FAQ */
       .faq {
-        margin: 60px auto 120px; /* extra bottom space so logout never overlaps */
+        margin: 60px auto 120px;
         width: 70%;
         text-align: left;
       }
@@ -163,7 +162,6 @@
         color: #334155;
       }
 
-      /* LOGOUT — FIXED, NEVER MOVES */
       .logout-container {
         position: fixed;
         bottom: 20px;
@@ -188,9 +186,10 @@
       </form>
     </header>
 
-    <form method="POST">
+    <!-- ✅ CORRECT FORM -->
+    <form method="POST" action="/cidr/calculate">
       <input type="text" name="cidr" placeholder="172.168.0.0/25" required />
-      <button>Calculate</button>
+      <button type="submit">Calculate</button>
     </form>
 
     {% if error %}
@@ -230,26 +229,11 @@
 
     <div class="faq">
       <h2>CIDR & Subnetting FAQ</h2>
-
-      <details><summary>What is CIDR?</summary>
-        <p>Classless Inter-Domain Routing (CIDR) is a compact way to write IP address ranges and their network masks.</p>
-      </details>
-
-      <details><summary>Why is CIDR notation useful?</summary>
-        <p>It lets network engineers allocate address space precisely, aggregate routes and keep routing tables smaller.</p>
-      </details>
-
-      <details><summary>How is an IP address structured?</summary>
-        <p>An IPv4 address consists of four 8-bit numbers (octets) ranging from 0 to 255.</p>
-      </details>
-
-      <details><summary>What does / mean?</summary>
-        <p>The slash value shows how many bits belong to the network prefix.</p>
-      </details>
-
-      <details><summary>How does this help?</summary>
-        <p>It shows netmask, broadcast, usable range and bit visualization instantly.</p>
-      </details>
+      <details><summary>What is CIDR?</summary><p>Classless Inter-Domain Routing (CIDR) is a compact way to write IP address ranges.</p></details>
+      <details><summary>Why useful?</summary><p>Efficient allocation and routing.</p></details>
+      <details><summary>IP structure?</summary><p>4 octets.</p></details>
+      <details><summary>/ meaning?</summary><p>Network bits.</p></details>
+      <details><summary>Calculator?</summary><p>Shows full breakdown.</p></details>
     </div>
 
     <div class="logout-container">

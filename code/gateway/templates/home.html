@@ -1,226 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WorkDesk</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WorkDesk</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-<style>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+      body {
+        font-family: "Inter", sans-serif;
+        background: radial-gradient(circle at top, #0f172a, #020617);
+        color: #e2e8f0;
+      }
 
-body{
-    font-family:'Inter',sans-serif;
-    background: radial-gradient(circle at top,#0f172a,#020617);
-    color:#e2e8f0;
-}
+      /* TOP BANNER */
+      .banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #0ea5e9;
+        overflow: hidden;
+        z-index: 1000;
+      }
+      .banner-text {
+        display: inline-block;
+        padding: 10px 0;
+        white-space: nowrap;
+        animation: scroll-left 18s linear infinite;
+        font-weight: 500;
+      }
+      @keyframes scroll-left {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
 
-/* TOP BANNER */
-.banner{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    background:#0ea5e9;
-    overflow:hidden;
-    z-index:1000;
-}
-.banner-text{
-    display:inline-block;
-    padding:10px 0;
-    white-space:nowrap;
-    animation:scroll-left 18s linear infinite;
-    font-weight:500;
-}
-@keyframes scroll-left{
-    0%{transform:translateX(100%);}
-    100%{transform:translateX(-100%);}
-}
+      /* MAIN */
+      .container {
+        max-width: 1100px;
+        margin: 90px auto 40px;
+        padding: 20px;
+      }
 
-/* MAIN */
-.container{
-    max-width:1100px;
-    margin:90px auto 40px;
-    padding:20px;
-}
+      /* HEADER */
+      h1 {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 8px;
+        color: #60a5fa;
+      }
 
-/* HEADER */
-h1{
-    text-align:center;
-    font-size:32px;
-    margin-bottom:8px;
-    color:#60a5fa;
-}
+      .subtitle-top {
+        text-align: center;
+        font-size: 14px;
+        color: #94a3b8;
+        margin-bottom: 30px;
+      }
 
-.subtitle-top{
-    text-align:center;
-    font-size:14px;
-    color:#94a3b8;
-    margin-bottom:30px;
-}
+      /* GRID */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
 
-/* GRID */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
+      /* CARD */
+      .service {
+        background: #020617;
+        border: 1px solid #1e293b;
+        border-radius: 16px;
+        padding: 20px;
+        text-decoration: none;
+        color: #e2e8f0;
+        transition: 0.25s;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-/* CARD */
-.service{
-    background:#020617;
-    border:1px solid #1e293b;
-    border-radius:16px;
-    padding:20px;
-    text-decoration:none;
-    color:#e2e8f0;
-    transition:0.25s;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
+      .service:hover {
+        transform: translateY(-4px);
+        border-color: #2563eb;
+        box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2);
+      }
 
-.service:hover{
-    transform:translateY(-4px);
-    border-color:#2563eb;
-    box-shadow:0 15px 40px rgba(37,99,235,0.2);
-}
+      .icon {
+        font-size: 28px;
+      }
 
-.icon{
-    font-size:28px;
-}
+      .title {
+        font-size: 16px;
+        font-weight: 600;
+      }
 
-.title{
-    font-size:16px;
-    font-weight:600;
-}
+      .subtitle {
+        font-size: 13px;
+        color: #94a3b8;
+      }
 
-.subtitle{
-    font-size:13px;
-    color:#94a3b8;
-}
+      /* BOTTOM */
+      .bottom-section {
+        margin-top: 40px;
+        text-align: center;
+      }
 
-/* BOTTOM */
-.bottom-section{
-    margin-top:40px;
-    text-align:center;
-}
+      .logout-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: #dc2626;
+        color: white;
+        text-decoration: none;
+        margin-bottom: 20px;
+      }
 
-.logout-btn{
-    display:inline-block;
-    padding:10px 20px;
-    border-radius:10px;
-    background:#dc2626;
-    color:white;
-    text-decoration:none;
-    margin-bottom:20px;
-}
+      .logout-btn:hover {
+        background: #ef4444;
+      }
 
-.logout-btn:hover{
-    background:#ef4444;
-}
+      .footer {
+        font-size: 13px;
+        color: #60a5fa;
+        margin-bottom: 10px;
+      }
 
-.footer{
-    font-size:13px;
-    color:#60a5fa;
-    margin-bottom:10px;
-}
+      .copyright {
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+  </head>
 
-.copyright{
-    font-size:12px;
-    color:#64748b;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="banner">
-    <div class="banner-text">
-        💡 Explore these free tools, experiment freely, and turn your ideas into real solutions!
-    </div>
-</div>
-
-<div class="container">
-
-<h1>WorkDesk</h1>
-<p class="subtitle-top">Build. Test. Ship. All in one place.</p>
-
-<div class="grid">
-
-<a class="service" href="/audio">
-    <div class="icon">🎙️</div>
-    <div class="title">Audio Service</div>
-    <div class="subtitle">Process and transform audio</div>
-</a>
-
-<a class="service" href="/music">
-    <div class="icon">🎶</div>
-    <div class="title">Music Service</div>
-    <div class="subtitle">Streaming & management</div>
-</a>
-
-<a class="service" href="/pdf">
-    <div class="icon">📑</div>
-    <div class="title">PDF Converter</div>
-    <div class="subtitle">Convert files instantly</div>
-</a>
-
-<a class="service" href="/word_to_pdf">
-    <div class="icon">🧾</div>
-    <div class="title">Word → PDF</div>
-    <div class="subtitle">DOCX to PDF conversion</div>
-</a>
-
-<a class="service" href="/youtube">
-    <div class="icon">▶️</div>
-    <div class="title">YouTube Downloader</div>
-    <div class="subtitle">Download videos easily</div>
-</a>
-
-<a class="service" href="/shortener">
-    <div class="icon">🔗</div>
-    <div class="title">URL Shortener</div>
-    <div class="subtitle">Create short links</div>
-</a>
-
-<a class="service" href="/todo">
-    <div class="icon">🗂️</div>
-    <div class="title">Todo Service</div>
-    <div class="subtitle">Track your tasks</div>
-</a>
-
-<a class="service" href="/audio-combiner">
-    <div class="icon">🎧</div>
-    <div class="title">Audio Combiner</div>
-    <div class="subtitle">Merge audio files</div>
-</a>
-
-<a class="service" href="/audio-cutter">
-    <div class="icon">✂️</div>
-    <div class="title">Audio Cutter</div>
-    <div class="subtitle">Trim audio precisely</div>
-</a>
-
-</div>
-
-<div class="bottom-section">
-    <a href="/logout" class="logout-btn">Logout</a>
-
-    <div class="footer">
-        ⚡ One Gateway. Multiple Services. Seamless Experience.
+  <body>
+    <div class="banner">
+      <div class="banner-text">
+        💡 Explore these free tools, experiment freely, and turn your ideas into
+        real solutions!
+      </div>
     </div>
 
-    <div class="copyright">
-        © 2026 WorkDesk. All rights reserved.
+    <div class="container">
+      <h1>WorkDesk</h1>
+      <p class="subtitle-top">Build. Test. Ship. All in one place.</p>
+
+      <div class="grid">
+        <a class="service" href="/audio">
+          <div class="icon">🎙️</div>
+          <div class="title">Audio Service</div>
+          <div class="subtitle">Process and transform audio</div>
+        </a>
+
+        <a class="service" href="/music">
+          <div class="icon">🎶</div>
+          <div class="title">Music Service</div>
+          <div class="subtitle">Streaming & management</div>
+        </a>
+
+        <a class="service" href="/pdf">
+          <div class="icon">📑</div>
+          <div class="title">PDF Converter</div>
+          <div class="subtitle">Convert files instantly</div>
+        </a>
+
+        <a class="service" href="/word_to_pdf">
+          <div class="icon">🧾</div>
+          <div class="title">Word → PDF</div>
+          <div class="subtitle">DOCX to PDF conversion</div>
+        </a>
+
+        <a class="service" href="/youtube">
+          <div class="icon">▶️</div>
+          <div class="title">YouTube Downloader</div>
+          <div class="subtitle">Download videos easily</div>
+        </a>
+
+        <a class="service" href="/shortener">
+          <div class="icon">🔗</div>
+          <div class="title">URL Shortener</div>
+          <div class="subtitle">Create short links</div>
+        </a>
+
+        <a class="service" href="/todo">
+          <div class="icon">🗂️</div>
+          <div class="title">Todo Service</div>
+          <div class="subtitle">Track your tasks</div>
+        </a>
+
+        <a class="service" href="/audio-combiner">
+          <div class="icon">🎧</div>
+          <div class="title">Audio Combiner</div>
+          <div class="subtitle">Merge audio files</div>
+        </a>
+
+        <a class="service" href="/audio-cutter">
+          <div class="icon">✂️</div>
+          <div class="title">Audio Cutter</div>
+          <div class="subtitle">Trim audio precisely</div>
+        </a>
+
+        <!-- ✅ NEW CIDR TOOL -->
+        <a class="service" href="/cidr">
+          <div class="icon">🌐</div>
+          <div class="title">CIDR Calculator</div>
+          <div class="subtitle">Visualize IP ranges & subnets</div>
+        </a>
+      </div>
+
+      <div class="bottom-section">
+        <a href="/logout" class="logout-btn">Logout</a>
+
+        <div class="footer">
+          ⚡ One Gateway. Multiple Services. Seamless Experience.
+        </div>
+
+        <div class="copyright">© 2026 WorkDesk. All rights reserved.</div>
+      </div>
     </div>
-</div>
-
-</div>
-
-</body>
+  </body>
 </html>

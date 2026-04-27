@@ -214,3 +214,7 @@ h1{
   50% {opacity:0.5;}
   100% {opacity:1;}
 }
+.service.metrics {
+  grid-column: 3;   /* same column as Audio Merge */
+  grid-row: 3;      /* place it below */
+}

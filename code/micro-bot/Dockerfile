@@ -10,6 +10,6 @@ COPY . .
 
 RUN go build -o app .
 
-EXPOSE 5013
+EXPOSE 5012
 
 CMD ["./app"]

@@ -16,7 +16,7 @@ func main() {
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 	http.HandleFunc("/ws", ws)
 
-	http.ListenAndServe(":5012", nil)
+	http.ListenAndServe(":5013", nil)
 }
 
 func ws(w http.ResponseWriter, r *http.Request) {

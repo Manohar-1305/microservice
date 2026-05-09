@@ -13,3 +13,4 @@ AUDIO_CUTTER_SERVICE = os.getenv("AUDIO_CUTTER_SERVICE_URL","http://audio-cutter
 AUDIO_COMBINER_SERVICE = os.getenv("AUDIO_COMBINER_SERVICE_URL","http://audio-combiner-service:5011")
 BOT_SERVICE = os.getenv("BOT_SERVICE_URL", "http://micro-bot:5013")
 METRICS_SERVICE = os.getenv("METRICS_SERVICE_URL", "http://metrics-service:5012")
+PAYMENT_SERVICE = os.getenv("PAYMENT_SERVICE_URL", "http://payment-service:5014")

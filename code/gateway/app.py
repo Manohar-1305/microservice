@@ -17,6 +17,7 @@ AUDIO_COMBINER_SERVICE = config.AUDIO_COMBINER_SERVICE
 AUDIO_CUTTER_SERVICE = config.AUDIO_CUTTER_SERVICE
 CIDR_SERVICE = config.CIDR_SERVICE
 METRICS_SERVICE = config.METRICS_SERVICE
+PAYMENT_SERVICE = config.PAYMENT_SERVICE
 
 @app.before_request
 def track_all_requests():
@@ -138,6 +139,34 @@ def cidr_calculate():
 
     return Response(r.content, r.status_code)
 
+# -------- PAYMENT SERVICE --------
+
+@app.route('/payment')
+def payment_page():
+    auth = check_auth()
+    if auth:
+        return auth
+
+    r = requests.get(f"{PAYMENT_SERVICE}/")
+    return Response(r.content, r.status_code)
+
+
+@app.route('/payment/process', methods=['POST'])
+def payment_process():
+    auth = check_auth()
+    if auth:
+        return auth
+
+    r = requests.post(
+        f"{PAYMENT_SERVICE}/process",
+        data=request.form
+    )
+
+    return Response(
+        r.content,
+        r.status_code,
+        content_type=r.headers.get('Content-Type')
+    )
 #----------Audio Cutter------------
 @app.route('/audio-cutter')
 def audio_cutter_page():

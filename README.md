@@ -17,13 +17,8 @@ docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=rootpass
 docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=usersdb -e MYSQL_USER=user -e MYSQL_PASSWORD=userpass -p 3306:3306 mysql:8
 
 # todo service
+docker stop todo 2>/dev/null; docker rm todo 2>/dev/null; docker build --no-cache -t todo-service . && docker run -d --name todo --network micro-net --env-file .env -p 50009:50009 todo-service
 
-docker build --no-cache -t todo-service . && \
-docker stop todo-service 2>/dev/null && \
-docker rm todo-service 2>/dev/null && \
-docker run -d --name todo-service --network micro-net --env-file .env -p 50009:50009 todo-service && \
-docker tag todo-service:latest manoharshetty507/todo-service:v1 && \
-docker push manoharshetty507/todo-service:v1
 
 docker build --no-cache -t todo-service . && docker stop todo-service 2>/dev/null; docker rm todo-service 2>/dev/null; docker run -d --name todo-service --network micro-net --env-file .env -p 50009:50009 todo-service
 

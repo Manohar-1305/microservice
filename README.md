@@ -75,6 +75,8 @@ docker stop audio-service && docker rm audio-service && docker build --no-cache 
 
 Music service
 ==============
+docker rm -f music-service 2>/dev/null; docker build --no-cache -t music-service . && docker run -d --name music-service --network micro-net -p 5004:5004 music-service
+
 docker rm -f music-service 2>/dev/null; docker build --no-cache -t music-service .; docker run -d --name music-service --network micro-net -p 5004:5004 music-service
 docker rm -f music-service 2>/dev/null; docker build --no-cache -t music-service ~/music_service && docker run -d --name music-service --network micro-net -p 5004:5004 music-service
 

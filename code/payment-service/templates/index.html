@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Service</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#0f172a;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .payment-container{
+            background:white;
+            width:430px;
+            padding:35px;
+            border-radius:15px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            color:#111827;
+        }
+
+        .input-group{
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:bold;
+            color:#374151;
+        }
+
+        input,
+        select{
+            width:100%;
+            padding:12px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            font-size:15px;
+        }
+
+        input:focus,
+        select:focus{
+            outline:none;
+            border-color:#dc2626;
+        }
+
+        .payment-details{
+            margin-top:15px;
+            background:#f3f4f6;
+            padding:15px;
+            border-radius:10px;
+            text-align:center;
+        }
+
+        #qrcode{
+            margin-top:15px;
+            display:flex;
+            justify-content:center;
+        }
+
+        .pay-btn{
+            width:100%;
+            padding:14px;
+            background:#dc2626;
+            color:white;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+            margin-top:15px;
+        }
+
+        .pay-btn:hover{
+            background:#b91c1c;
+        }
+
+        .payment-text{
+            margin-top:10px;
+            color:#111827;
+            font-size:14px;
+            line-height:1.6;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="payment-container">
+
+        <h1>Contribute to WorkDesk</h1>
+
+        <form action="/payment/process" method="POST">
+
+            <div class="input-group">
+
+                <label>Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Amount</label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    placeholder="Enter amount"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Payment Method</label>
+
+                <select
+                    name="method"
+                    id="paymentMethod"
+                    onchange="generateQR()"
+                    required
+                >
+
+                    <option value="">Select Method</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Card</option>
+                    <option value="NetBanking">Net Banking</option>
+
+                </select>
+
+            </div>
+
+            <div class="payment-details">
+
+                <div id="qrcode"></div>
+
+                <div class="payment-text" id="paymentText">
+                    Select payment method to generate QR.
+                </div>
+
+            </div>
+
+            <button class="pay-btn" type="submit">
+                Contribute Now
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        function generateQR(){
+
+            const method = document.getElementById("paymentMethod").value;
+            const amount = document.getElementById("amount").value || "100";
+
+            const qrContainer = document.getElementById("qrcode");
+            const paymentText = document.getElementById("paymentText");
+
+            qrContainer.innerHTML = "";
+
+            let paymentData = "";
+
+            if(method === "UPI"){
+
+                paymentData =
+                `upi://pay?pa=workdesk@upi&pn=WorkDesk&am=${amount}&cu=INR`;
+
+                paymentText.innerHTML =
+                `
+                    <strong>UPI Payment</strong><br>
+                    Scan QR using PhonePe, GPay or Paytm
+                `;
+
+            }
+
+            else if(method === "Card"){
+
+                paymentData =
+                `CARD PAYMENT | Amount: ₹${amount}`;
+
+                paymentText.innerHTML =
+                `
+                    <strong>Card Payment</strong><br>
+                    Scan QR to continue card contribution
+                `;
+
+            }
+
+            else if(method === "NetBanking"){
+
+                paymentData =
+                `NETBANKING PAYMENT | Amount: ₹${amount}`;
+
+                paymentText.innerHTML =
+                `
+                    <strong>Net Banking</strong><br>
+                    Scan QR to continue banking payment
+                `;
+
+            }
+
+            else{
+
+                paymentText.innerHTML =
+                `Select payment method to generate QR`;
+
+                return;
+            }
+
+            new QRCode(qrContainer,{
+                text: paymentData,
+                width: 180,
+                height: 180
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>

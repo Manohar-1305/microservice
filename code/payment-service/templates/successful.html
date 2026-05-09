@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#0f172a;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .success-container{
+            background:white;
+            width:420px;
+            padding:35px;
+            border-radius:16px;
+            text-align:center;
+            box-shadow:0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1{
+            color:#16a34a;
+            margin-bottom:15px;
+        }
+
+        p{
+            color:#374151;
+            margin-bottom:20px;
+            line-height:1.6;
+        }
+
+        .qr-box{
+            margin-top:20px;
+        }
+
+        .qr-box img{
+            width:240px;
+            border-radius:14px;
+            padding:10px;
+            background:#f3f4f6;
+        }
+
+        .home-btn{
+            display:inline-block;
+            margin-top:25px;
+            text-decoration:none;
+            background:#dc2626;
+            color:white;
+            padding:12px 25px;
+            border-radius:10px;
+            transition:0.3s;
+        }
+
+        .home-btn:hover{
+            background:#b91c1c;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="success-container">
+
+        <h1>Payment Successful</h1>
+
+        <p>
+            Thank you for supporting WorkDesk.<br>
+            Scan the QR code below to complete payment.
+        </p>
+
+        <div class="qr-box">
+
+            <img
+                src="data:image/png;base64,{{ qr_code }}"
+                alt="QR Code"
+            >
+
+        </div>
+
+        <p>
+            Amount: ₹{{ amount }}<br>
+            Method: {{ method }}
+        </p>
+
+        <a href="/home" class="home-btn">
+            Back To Home
+        </a>
+
+    </div>
+
+</body>
+</html>

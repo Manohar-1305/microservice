@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Helpdesk</title>
+
+<style>
+body{
+    background: linear-gradient(135deg,#1f2937,#4c1d95,#065f46);
+    font-family:Arial;margin:0;height:100vh;overflow:hidden;
+}
+
+/* NAV */
+#nav{position:fixed;top:30px;left:15px;}
+#nav a{
+    background:#dc2626;color:white;padding:12px 22px;
+    border-radius:10px;font-weight:bold;text-decoration:none;
+}
+
+/* HOME */
+#homeBtn{
+    position:fixed;top:15px;right:20px;
+    background:#16a34a;color:white;padding:12px 22px;
+    border-radius:10px;font-weight:bold;text-decoration:none;
+}
+
+#slider{
+    position:absolute;
+    left:8%;
+    top:50%;
+    transform:translateY(-50%);
+    width:45%;
+    color:#e2e8f0;
+    font-size:28px;
+    height:40px;
+    overflow:hidden;
+}
+
+.slide{
+    position:absolute;
+    width:100%;
+    opacity:0;
+    transform:translateX(100%);
+    transition:all 0.8s ease;
+}
+
+.slide.active{
+    opacity:1;
+    transform:translateX(0);
+}
+
+.slide.exit{
+    transform:translateX(-100%);
+    opacity:0;
+}
+
+/* CHAT */
+#chatBox{
+    position:fixed;bottom:20px;right:20px;
+    width:360px;height:560px;
+    background:#020617;border-radius:12px;
+    display:flex;flex-direction:column;
+}
+#chatBox.minimized{height:50px;}
+#chatBox.maximized{width:100%;height:100%;bottom:0;right:0;border-radius:0;}
+
+#header{
+    background:#ef4444;color:white;padding:12px;
+    text-align:center;font-weight:bold;position:relative;
+}
+
+/* buttons */
+#minBtn,#maxBtn,#resetBtn,#closeBtn{
+    position:absolute;top:8px;cursor:pointer;
+}
+#minBtn{right:10px;}
+#maxBtn{right:40px;}
+#closeBtn{right:70px;}   /* NEW */
+#resetBtn{left:10px;}
+
+#messages{flex:1;padding:10px;overflow:auto;color:white;}
+.msg{margin:6px 0;}
+.user{text-align:right;color:#22c55e;}
+.bot{text-align:left;color:#38bdf8;}
+
+/* typing dots */
+.typing span{
+    display:inline-block;width:6px;height:6px;margin:0 2px;
+    background:#38bdf8;border-radius:50%;
+    animation:blink 1.4s infinite;
+}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:0;}40%{opacity:1;}}
+
+/* input */
+#inputBox{display:flex;}
+#inputBox input{
+    flex:1;padding:12px;border:none;background:#0f172a;color:white;
+}
+#inputBox button{
+    background:#ef4444;border:none;padding:12px;color:white;
+}
+
+/* rating */
+#rating{display:none;text-align:center;padding:10px;color:white;}
+.star{font-size:24px;cursor:pointer;color:#475569;}
+.star.active{color:#facc15;}
+#ratingResult{margin-top:5px;font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<div id="nav"><a href="/about">About Me</a></div>
+<a href="/home" id="homeBtn">Home</a>
+
+<!-- SLIDER -->
+<div id="slider">
+    <div class="slide active">Convert text to audio instantly</div>
+    <div class="slide">Combine multiple audio files seamlessly</div>
+    <div class="slide">Convert PDF to Word documents easily</div>
+    <div class="slide">Convert Word files to PDF quickly</div>
+    <div class="slide">Cut and trim audio files efficiently</div>
+    <div class="slide">Calculate CIDR ranges and subnet details</div>
+    <div class="slide">Use multiple tools in a single platform</div>
+    <div class="slide">Experiment and explore microservices</div>
+</div>
+
+<div id="chatBox">
+<div id="header">
+Support Helpdesk
+<span id="resetBtn" onclick="restartChat()">⟲</span>
+<span id="maxBtn" onclick="toggleMax()">⬜</span>
+
+<!-- NEW CLOSE BUTTON -->
+<span id="closeBtn" onclick="goHome()">✖</span>
+
+<span id="minBtn" onclick="toggleChat()">—</span>
+</div>
+
+<div id="messages"></div>
+
+<div id="rating">
+<div>Rate your experience</div>
+<span class="star" onclick="rate(1)">★</span>
+<span class="star" onclick="rate(2)">★</span>
+<span class="star" onclick="rate(3)">★</span>
+<span class="star" onclick="rate(4)">★</span>
+<span class="star" onclick="rate(5)">★</span>
+<div id="ratingResult"></div>
+</div>
+
+<div id="inputBox">
+<input id="i" placeholder="Type here..." />
+<button onclick="send()">➤</button>
+</div>
+</div>
+
+<script>
+document.getElementById("i").addEventListener("keydown",e=>{
+if(e.key==="Enter") send();
+});
+
+/* slider */
+let slides=document.querySelectorAll(".slide");
+let idx=0;
+setInterval(()=>{
+slides[idx].classList.remove("active");
+slides[idx].classList.add("exit");
+idx=(idx+1)%slides.length;
+slides[idx].classList.add("active");
+},5000);
+
+let msgs=document.getElementById("messages");
+let ratingBox=document.getElementById("rating");
+
+let state="start";
+let service="";
+
+/* controls */
+function toggleChat(){chatBox.classList.toggle("minimized");}
+function toggleMax(){chatBox.classList.toggle("maximized");}
+
+/* NEW FUNCTION */
+function goHome(){
+    window.location.href="/home";
+}
+
+/* bot */
+function bot(text){
+let d=document.createElement("div");
+d.className="msg bot";
+d.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+msgs.appendChild(d);
+setTimeout(()=>{d.innerText=text;msgs.scrollTop=msgs.scrollHeight;},600);
+}
+
+function add(type,text){
+let d=document.createElement("div");
+d.className="msg "+type;
+d.innerText=text;
+msgs.appendChild(d);
+}
+
+/* restart */
+function restartChat(){
+msgs.innerHTML="";
+ratingBox.style.display="none";
+state="start";
+bot("Hi, this is Jane from support helpdesk. How are you today?");
+}
+
+window.onload=restartChat;
+
+/* flow (UNCHANGED) */
+function send(){
+let v=i.value.trim().toLowerCase();
+if(!v) return;
+
+add("user",v);
+
+if(state==="start"){
+bot("How may I help you?");
+state="serviceAsk";
+}
+
+else if(state==="serviceAsk"){
+bot("Select a service you are facing issue with? 1.Audio 2.Music 3.PDF 4.YouTube 5.Todo 6.URL 7.Merge 8.Cutter 9.CIDR");
+state="service";
+}
+
+else if(state==="service"){
+service=v;
+bot("What issue are you facing?");
+state="issue";
+}
+
+else if(state==="issue"){
+if(service==="1") bot("Is audio not playing or downloading?");
+else if(service==="2") bot("Is music streaming slow?");
+else if(service==="3") bot("Is PDF conversion failing?");
+else if(service==="4") bot("Is YouTube link invalid?");
+else if(service==="5") bot("Are tasks not saving?");
+else if(service==="6") bot("Is short URL not redirecting?");
+else if(service==="7") bot("Is audio merge failing?");
+else if(service==="8") bot("Is audio cutter not working?");
+else if(service==="9") bot("Is CIDR input incorrect?");
+else bot("Is the service reachable?");
+state="check";
+}
+
+else if(state==="check"){
+bot("Check connectivity, logs and configuration");
+bot("Is your issue resolved? (yes/no)");
+state="final";
+}
+
+else if(state==="final"){
+if(v==="yes"){
+bot("Great, it is resolved 👍");
+}else{
+bot("Issue not resolved");
+bot("Contact: 9898989898 or manohartshetty507@gmail.com");
+}
+bot("Please rate your experience");
+ratingBox.style.display="block";
+state="rating";
+}
+
+else if(state==="newServiceAsk"){
+if(v==="yes"){
+bot("Please enter the new service you need");
+state="newServiceInput";
+}else{
+bot("Thank you for contacting support");
+state="done";
+}
+}
+
+else if(state==="newServiceInput"){
+bot("Thanks, we will consider adding: " + v);
+bot("Thank you for contacting support");
+state="done";
+}
+
+i.value="";
+}
+
+/* rating */
+function rate(n){
+document.querySelectorAll(".star").forEach((s,i)=>s.classList.toggle("active",i<n));
+ratingResult.innerText="You rated: "+n+"/5";
+
+bot("Thank you for your feedback");
+
+setTimeout(()=>{
+bot("Do you need any new service?");
+state="newServiceAsk";
+},700);
+
+ratingBox.style.display="none";
+}
+</script>
+
+</body>
+</html>

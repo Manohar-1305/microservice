@@ -1,0 +1,44 @@
+ALL MICROSERVICE COMMAND FOR DOCKER
+------------------------------------
+gateway-service
+docker stop gateway-service 2>/dev/null; docker rm gateway-service 2>/dev/null; docker build --no-cache -t gateway-service . && docker run -d --name gateway-service --network micro-net -p 5000:5000 gateway-service
+
+user-service
+docker build --no-cache -t user-service . && docker stop user-service 2>/dev/null; docker rm user-service 2>/dev/null; docker run -d --name user-service --network micro-net -p 5006:5006 user-service
+
+mysql
+docker stop user-db 2>/dev/null; docker rm user-db 2>/dev/null; docker run -d --name user-db --network micro-net -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=usersdb -e MYSQL_USER=user -e MYSQL_PASSWORD=userpass -p 3306:3306 mysql:8
+
+
+audio converter
+docker rm -f audio-converter-service 2>/dev/null; docker build --no-cache -t audio-converter-service . && docker run -d --name audio-converter-service --network micro-net -p 5003:5003 audio-converter-service
+
+music-service
+docker stop music-service 2>/dev/null; docker rm music-service 2>/dev/null; docker build --no-cache -t music-service . && docker run -d --name music-service --network micro-net -p 5004:5004 music-service
+
+audio combiner
+docker rm -f audio-combiner-service 2>/dev/null; docker build --no-cache -t audio-combiner-service . && docker run -d --name audio-combiner-service --network micro-net -p 5011:5011 audio-combiner-service
+
+audio-cutter
+docker rm -f audio-cutter-service 2>/dev/null; docker build --no-cache -t audio-cutter-service . && docker run -d --name audio-cutter-service --network micro-net -p 5010:5010 audio-cutter-service
+
+metric
+docker stop metrics-service 2>/dev/null; docker rm metrics-service 2>/dev/null; docker build --no-cache -t metrics-service . && docker run -d --name metrics-service --network micro-net -p 5012:5012 metrics-service
+
+pdf-service
+docker rm -f pdf-service 2>/dev/null; docker build --no-cache -t pdf-service . && docker run -d --name pdf-service --network micro-net -p 5001:5001 pdf-service
+
+word-service
+docker rm -f word2pdf-service 2>/dev/null; docker build --no-cache -t word2pdf-service . && docker run -d --name word2pdf-service --network micro-net -p 5005:5005 word2pdf-service
+
+todo-service
+docker stop todo 2>/dev/null; docker rm todo 2>/dev/null; docker build --no-cache -t todo-service . && docker run -d --name todo --network micro-net --env-file .env -p 50009:50009 todo-service
+
+cidr
+docker build --no-cache -t cidr-service . && docker stop cidr-service 2>/dev/null; docker rm cidr-service 2>/dev/null; docker run -d --name cidr-service --network micro-net -p 5008:5008 cidr-service
+
+youtube
+docker rm -f youtube-service 2>/dev/null; docker build --no-cache -t youtube-service . && docker run -d --name youtube-service --network micro-net -p 5002:5002 youtube-service
+
+url-shortner
+docker build --no-cache -t url-shortner-service . && docker stop url-shortner-service 2>/dev/null; docker rm url-shortner-service 2>/dev/null; docker run -d --name url-shortner-service --network micro-net --env-file .env -p 50007:50007 url-shortner-service

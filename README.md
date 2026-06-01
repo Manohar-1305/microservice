@@ -125,7 +125,7 @@ CIDR
 
 payment service
 ==================
-docker stop payment 2>/dev/null; docker rm payment 2>/dev/null; docker build --no-cache -t payment-service ./code/payment-service && docker run -d --name payment --network micro-net --env-file ./code/payment-service/.env -p 5014:5014 payment-service
+docker stop payment 2>/dev/null; docker rm payment 2>/dev/null; docker build --no-cache -t payment-service . && docker run -d --name payment --network micro-net -p 5014:5014 payment-service
 
 -------------------------
 Upload the image locally

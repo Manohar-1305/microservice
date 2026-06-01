@@ -122,7 +122,11 @@ CIDR
  ===================
 
  docker build --no-cache -t metrics-service . && docker stop metrics-service 2>/dev/null; docker rm metrics-service 2>/dev/null; docker run -d --name metrics-service --network micro-net -p 5012:5012 metrics-service
- 
+
+payment service
+==================
+docker stop payment 2>/dev/null; docker rm payment 2>/dev/null; docker build --no-cache -t payment-service ./code/payment-service && docker run -d --name payment --network micro-net --env-file ./code/payment-service/.env -p 5014:5014 payment-service
+
 -------------------------
 Upload the image locally
 ==========================

@@ -133,12 +133,14 @@ mkdir -p /home/ubuntu/microservice/code/audio-worker
 cd /home/ubuntu/microservice/code/audio-worker
 
 #Rabbitmq
+
 docker stop rabbitmq 2>/dev/null; docker rm rabbitmq 2>/dev/null; docker run -d --name rabbitmq --network micro-net -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=changeme-strong-password -p 5672:5672 -p 15672:15672 --restart unless-stopped rabbitmq:3-management
 
 #Rabbitmq worker
-docker stop audio-worker 2>/dev/null; docker rm audio-worker 2>/dev/null; docker build --no-cache -t audio-worker . && docker run -d --name audio-worker --network micro-net -e RABBITMQ_URL="amqp://admin:changeme-strong-password@rabbitmq:5672/" --restart unless-stopped audio-worker
 
 docker stop audio-worker 2>/dev/null; docker rm audio-worker 2>/dev/null; docker build --no-cache -t audio-worker . && docker run -d --name audio-worker --network micro-net -e RABBITMQ_URL="amqp://admin:changeme-strong-password@rabbitmq:5672/" -e PYTHONUNBUFFERED=1 --restart unless-stopped audio-worker
+
+docker stop audio-worker 2>/dev/null; docker rm audio-worker 2>/dev/null; docker build --no-cache -t audio-worker . && docker run -d --name audio-worker --network micro-net -e RABBITMQ_URL="amqp://admin:changeme-strong-password@rabbitmq:5672/" --restart unless-stopped audio-worker
 
 # audio-service
 docker run -d --name audio-converter-service --network micro-net -p 5003:5003 -e RABBITMQ_URL="amqp://admin:changeme-strong-password@rabbitmq:5672/" --restart unless-stopped audio-service

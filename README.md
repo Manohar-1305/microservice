@@ -126,9 +126,10 @@ payment service
 ==================
 docker stop payment-service 2>/dev/null; docker rm payment-service 2>/dev/null; docker build --no-cache -t payment-service . && docker run -d --name payment-service --network micro-net -p 5014:5014 payment-service
 
-rabbitmq
----------
+Rabbitmq
+==========
 mkdir -p /home/ubuntu/microservice/code/audio-worker
+
 cd /home/ubuntu/microservice/code/audio-worker
 
 #Rabbitmq

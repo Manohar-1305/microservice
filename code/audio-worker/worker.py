@@ -26,11 +26,15 @@ def on_request(ch, method, props, body):
     lang = data.get('lang', 'en')
     tld = data.get('tld', 'co.in')
 
+    print(f"[job received] correlation_id={props.correlation_id} text={text[:50]!r}", flush=True)
+
     try:
         audio_bytes = process_request(text, lang, tld)
         response = {'audio': base64.b64encode(audio_bytes).decode('utf-8')}
+        print(f"[job done] correlation_id={props.correlation_id} bytes={len(audio_bytes)}", flush=True)
     except Exception as e:
         response = {'error': str(e)}
+        print(f"[job failed] correlation_id={props.correlation_id} error={e}", flush=True)
 
     ch.basic_publish(
         exchange='',
@@ -48,7 +52,7 @@ def main():
     channel.queue_declare(queue=REQUEST_QUEUE, durable=True)
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=REQUEST_QUEUE, on_message_callback=on_request)
-    print("audio-worker waiting for jobs...")
+    print("audio-worker waiting for jobs...", flush=True)
     channel.start_consuming()
 
 

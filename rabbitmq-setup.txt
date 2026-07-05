@@ -27,7 +27,7 @@ resources:
     memory: 512Mi
 
 service:
-  type: ClusterIP
+  type: NodePort
 
 helm install rabbitmq bitnami/rabbitmq -n messaging -f rabbitmq-values.yaml
 
@@ -82,3 +82,58 @@ spec:
   ports:
     - port: 5003
       targetPort: 5003
+
+audio-worker.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audio-worker
+  namespace: microservices
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: audio-worker
+  template:
+    metadata:
+      labels:
+        app: audio-worker
+    spec:
+      containers:
+        - name: audio-worker
+          image: manoharshetty507/audio-worker:latest
+          imagePullPolicy: Always
+          env:
+            - name: RABBITMQ_URL
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-creds
+                  key: RABBITMQ_URL
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+
+kubectl apply -f audio-service-deployment.yaml
+kubectl apply -f audio-worker-deployment.yaml
+
+kubectl get pods -n microservices
+kubectl get pods -n messaging
+
+kubectl logs -f deployment/audio-worker -n microservices
+
+kubectl port-forward -n microservices svc/audio-service 5003:5003
+
+curl -X POST http://localhost:5003/convert \
+  -H "Content-Type: application/json" \
+  -d '{"text": "k8s pipeline test"}' \
+  --output k8s-test.mp3 \
+  -w "\nHTTP status: %{http_code}\n"
+
+file k8s-test.mp3
